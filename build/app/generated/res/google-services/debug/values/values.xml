@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">1011498917357-pmo6m0bbv76hk80a9keq1ps49dq360s2.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://babymemo-c63cb.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">1011498917357</string>
+    <string name="google_api_key" translatable="false">AIzaSyAPzB7xj-X-p-VgJR-YaUopJ_TQQvawUD8</string>
+    <string name="google_app_id" translatable="false">1:1011498917357:android:375eec5bc61962aebd9be4</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAPzB7xj-X-p-VgJR-YaUopJ_TQQvawUD8</string>
+    <string name="google_storage_bucket" translatable="false">babymemo-c63cb.appspot.com</string>
+    <string name="project_id" translatable="false">babymemo-c63cb</string>
+</resources>

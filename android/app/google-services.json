@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1011498917357",
+    "firebase_url": "https://babymemo-c63cb.firebaseio.com",
+    "project_id": "babymemo-c63cb",
+    "storage_bucket": "babymemo-c63cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011498917357:android:375eec5bc61962aebd9be4",
+        "android_client_info": {
+          "package_name": "com.google.codelab.photos.sharing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011498917357-omekpaepa3n12o8ospcqba64d5mqc7gs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.codelab.photos.sharing",
+            "certificate_hash": "7eb509e0f1f01579a24517d313900fa2ef9ec271"
+          }
+        },
+        {
+          "client_id": "1011498917357-pmo6m0bbv76hk80a9keq1ps49dq360s2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPzB7xj-X-p-VgJR-YaUopJ_TQQvawUD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011498917357-pmo6m0bbv76hk80a9keq1ps49dq360s2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
