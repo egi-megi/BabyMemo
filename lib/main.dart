@@ -20,13 +20,13 @@ import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/home_page.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import 'package:sharing_codelab/model/issues.dart';
+import 'package:sharing_codelab/model/chalanges.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  String jsonString  =  await rootBundle.loadString("assets/issues.json");
-  var issues=Issues.fromJson(jsonString);
+  String jsonString  =  await rootBundle.loadString("assets/chalanges.json");
+  var issues=Challenge.fromJson(jsonString);
   final apiModel = PhotosLibraryApiModel(issues);
   apiModel.signInSilently();
 

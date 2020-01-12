@@ -48,4 +48,4 @@ flutter:
   assets:
    - ic_fieldTrippa.svg
    - lockup_photos_horizontal.svg
-   - assets/issues.json
+   - assets/chalanges.json

@@ -1,4 +1,4 @@
-#Sun Jan 12 02:02:29 CET 2020
+#Sun Jan 12 18:28:51 CET 2020
 base.0=/home/egi-megi/WEITI/studia/2019-2010_semZimowy/przedmioty/WPAM/projekt/BabyMemo/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

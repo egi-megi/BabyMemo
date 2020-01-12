@@ -100,10 +100,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
       Navigator.pop(context);
     });
 
-
-
-
-
-
   }
+
+
 }

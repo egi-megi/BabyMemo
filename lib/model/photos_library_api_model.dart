@@ -19,7 +19,7 @@ import 'dart:io';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/model/issues.dart';
+import 'package:sharing_codelab/model/chalanges.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_request.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_response.dart';
@@ -42,10 +42,10 @@ class PhotosLibraryApiModel extends Model {
       notifyListeners();
 
     });
-    this.mIssues=mIssues;
+    this.mChallange=mIssues;
   }
 
-  Issues mIssues;
+  Challenge mChallange;
 
   final LinkedHashSet<Album> _albums = LinkedHashSet<Album>();
   bool hasAlbums = false;

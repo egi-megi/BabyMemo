@@ -4,9 +4,11 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalendar/kalendar.dart';
-import 'package:sharing_codelab/model/issue.dart';
-import 'package:sharing_codelab/model/issues.dart';
+import 'package:sharing_codelab/model/chalange.dart';
+import 'package:sharing_codelab/model/chalanges.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
+import 'package:sharing_codelab/pages/trip_list_page.dart';
+import 'package:sharing_codelab/pages/list_of_chalanges.dart';
 
 class Calendar3Page extends StatefulWidget {
   @override
@@ -53,7 +55,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
             alignment: WrapAlignment.center,
             spacing: 16,
             children:
-              apiModel.mIssues.idToIssueMap.values.map((x)=>
+              apiModel.mChallange.idToChallengesMap.values.map((x)=>
               RaisedButton ( child: Text(x.text), )).toList(),
           /*  <Widget>[RaisedButton(
                 onPressed: () {
@@ -150,11 +152,46 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
           )
         ],
       ),
-    ));
+        ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                try {
+                  await apiModel.signIn()
+                      ? _navigateToTripList(context)
+                      : _showSignInError(context);
+                } on Exception catch (error) {
+                  print(error);
+                  _showSignInError(context);
+                }
+
+              },
+              child: Text("+"),
+              backgroundColor: Colors.deepPurpleAccent,
+            )
+    );
   });
 }
+  void _showSignInError(BuildContext context) {
+    final SnackBar snackBar = SnackBar(
+      duration: Duration(seconds: 3),
+      content: const Text('Could not sign in.\n'
+          'Is the Google Services file missing?'),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  void _navigateToTripList(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => ChalangesListPage(),
+      ),
+    );
+  }
 
 }
+
+
 class CustomDayTile extends StatelessWidget {
   final DayProps props;
 
@@ -305,4 +342,6 @@ class _EventMark extends StatelessWidget {
 
     return Container();
   }
+
+
 }
