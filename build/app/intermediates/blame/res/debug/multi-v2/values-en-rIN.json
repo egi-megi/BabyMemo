@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/egi-megi/WEITI/studia/2019-2010_semZimowy/przedmioty/WPAM/projekt/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "/Users/egi-megi/Documents/WEITI/2019_2020_zima/WPAM/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/core-1.0.2.aar/fa2e141d2257ce55536c646d35d6787e/res/values-en-rIN/values-en-rIN.xml",
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/core-1.0.2.aar/6e2fc6276663d4b2a11f263bef4cd7d1/res/values-en-rIN/values-en-rIN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

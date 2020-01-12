@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/egi-megi/WEITI/studia/2019-2010_semZimowy/przedmioty/WPAM/projekt/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-hi/values-hi.xml",
+            "outputFile": "/Users/egi-megi/Documents/WEITI/2019_2020_zima/WPAM/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-hi/values-hi.xml",
             "map": [
                 {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/core-1.0.2.aar/fa2e141d2257ce55536c646d35d6787e/res/values-hi/values-hi.xml",
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/core-1.0.2.aar/6e2fc6276663d4b2a11f263bef4cd7d1/res/values-hi/values-hi.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/play-services-base-17.0.0.aar/4235a56e0d07a7950c6458453990cb1b/res/values-hi/values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "245,351,543,667,777,987,1115,1253,1390,1606,1713,1910,2038,2238,2417,2506,2599",
-                        "endColumns": "105,191,123,109,209,127,137,136,215,106,196,127,199,178,88,92,112",
-                        "endOffsets": "350,542,666,776,986,1114,1252,1389,1605,1712,1909,2037,2237,2416,2505,2598,2711"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,215,407,535,649,859,991,1133,1479,1695,1806,2003,2135,2335,2518,2611,2708",
-                        "endColumns": "109,191,127,113,209,131,141,140,215,110,196,131,199,182,92,96,116",
-                        "endOffsets": "210,402,530,644,854,986,1128,1269,1690,1801,1998,2130,2330,2513,2606,2703,2820"
-                    }
-                },
-                {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-17.0.0.aar/80b836601f4a79996cdf50896708c7b2/res/values-hi/values.xml",
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-17.0.0.aar/765b96e5c9d7c28a5bf136c8939d0bf8/res/values-hi/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -52,6 +35,23 @@
                         "startOffsets": "1274",
                         "endColumns": "204",
                         "endOffsets": "1474"
+                    }
+                },
+                {
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/play-services-base-17.0.0.aar/13be95779eb7b7c2646a094e6f4efc86/res/values-hi/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,351,543,667,777,987,1115,1253,1390,1606,1713,1910,2038,2238,2417,2506,2599",
+                        "endColumns": "105,191,123,109,209,127,137,136,215,106,196,127,199,178,88,92,112",
+                        "endOffsets": "350,542,666,776,986,1114,1252,1389,1605,1712,1909,2037,2237,2416,2505,2598,2711"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,215,407,535,649,859,991,1133,1479,1695,1806,2003,2135,2335,2518,2611,2708",
+                        "endColumns": "109,191,127,113,209,131,141,140,215,110,196,131,199,182,92,96,116",
+                        "endOffsets": "210,402,530,644,854,986,1128,1269,1690,1801,1998,2130,2330,2513,2606,2703,2820"
                     }
                 }
             ]

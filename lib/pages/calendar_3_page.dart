@@ -55,7 +55,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
             alignment: WrapAlignment.center,
             spacing: 16,
             children:
-              apiModel.mChallange.idToChallengesMap.values.map((x)=>
+              apiModel.mChallanges.idToChallengesMap.values.map((x)=>
               RaisedButton ( child: Text(x.text), )).toList(),
           /*  <Widget>[RaisedButton(
                 onPressed: () {
@@ -342,6 +342,8 @@ class _EventMark extends StatelessWidget {
 
     return Container();
   }
+
+
 
 
 }

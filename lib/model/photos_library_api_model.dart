@@ -18,6 +18,7 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/calendar/v3.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sharing_codelab/model/chalanges.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
@@ -35,6 +36,8 @@ import 'package:sharing_codelab/photos_library_api/search_media_items_response.d
 import 'package:sharing_codelab/photos_library_api/share_album_request.dart';
 import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
 
+import 'google_http_clent.dart';
+
 class PhotosLibraryApiModel extends Model {
   PhotosLibraryApiModel(mIssues) {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
@@ -42,21 +45,23 @@ class PhotosLibraryApiModel extends Model {
       notifyListeners();
 
     });
-    this.mChallange=mIssues;
+    this.mChallanges=mIssues;
   }
 
-  Challenge mChallange;
+  Challenges mChallanges;
 
   final LinkedHashSet<Album> _albums = LinkedHashSet<Album>();
   bool hasAlbums = false;
   PhotosLibraryApiClient client;
+  CalendarApi calendarClient;
 
   GoogleSignInAccount _currentUser;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: <String>[
     'profile',
     'https://www.googleapis.com/auth/photoslibrary',
-    'https://www.googleapis.com/auth/photoslibrary.sharing'
+    'https://www.googleapis.com/auth/photoslibrary.sharing',
+    'https://www.googleapis.com/auth/calendar',
   ]);
   GoogleSignInAccount get user => _currentUser;
 
@@ -72,6 +77,17 @@ class PhotosLibraryApiModel extends Model {
     }
 
     client = PhotosLibraryApiClient(_currentUser.authHeaders);
+    final authHeaders = _currentUser.authHeaders;
+    // custom IOClient from below
+    final httpClient = GoogleHttpClient(await authHeaders);
+    calendarClient=new CalendarApi(httpClient);
+    if (false) { //calendar not exists
+      Calendar c = new Calendar();
+
+      c.description = "babby memo description";
+      c.summary = "test baby memo";
+      calendarClient.calendars.insert(c);
+    }
     updateAlbums();
     return true;
   }

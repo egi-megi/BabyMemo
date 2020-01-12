@@ -26,7 +26,7 @@ import 'package:sharing_codelab/model/chalanges.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   String jsonString  =  await rootBundle.loadString("assets/chalanges.json");
-  var issues=Challenge.fromJson(jsonString);
+  var issues=Challenges.fromJson(jsonString);
   final apiModel = PhotosLibraryApiModel(issues);
   apiModel.signInSilently();
 

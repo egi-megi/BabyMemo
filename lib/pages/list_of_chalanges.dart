@@ -225,4 +225,21 @@ class ChalangesListPage extends StatelessWidget {
     }
   }
 
+  /*Future<void> _createTrip(BuildContext context) async {
+    // Display the loading indicator.
+    setState(() => _isLoading = true);
+
+    // TODO(codelab): Implement call to PhotosLibraryApiModel scope here.
+    await ScopedModel.of<PhotosLibraryApiModel>(context)
+        .createAlbum(tripNameFormController.text)
+        .then((Album album) {
+      ToBeImplemented.showMessage();
+
+      // Hide the loading indicator.
+      setState(() => _isLoading = false);
+      Navigator.pop(context);
+    });
+
+  }*/
+
 }

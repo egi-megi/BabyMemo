@@ -1,10 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "/home/egi-megi/WEITI/studia/2019-2010_semZimowy/przedmioty/WPAM/projekt/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ml/values-ml.xml",
+            "outputFile": "/Users/egi-megi/Documents/WEITI/2019_2020_zima/WPAM/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ml/values-ml.xml",
             "map": [
                 {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/core-1.0.2.aar/fa2e141d2257ce55536c646d35d6787e/res/values-ml/values-ml.xml",
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-17.0.0.aar/765b96e5c9d7c28a5bf136c8939d0bf8/res/values-ml/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "218",
+                        "endOffsets": "465"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1321",
+                        "endColumns": "218",
+                        "endOffsets": "1535"
+                    }
+                },
+                {
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/core-1.0.2.aar/6e2fc6276663d4b2a11f263bef4cd7d1/res/values-ml/values-ml.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/play-services-base-17.0.0.aar/4235a56e0d07a7950c6458453990cb1b/res/values-ml/values.xml",
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/play-services-base-17.0.0.aar/13be95779eb7b7c2646a094e6f4efc86/res/values-ml/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -35,23 +52,6 @@
                         "startOffsets": "105,226,437,578,701,924,1051,1186,1540,1781,1899,2104,2242,2450,2641,2735,2834",
                         "endColumns": "120,210,140,122,222,126,134,134,240,117,204,137,207,190,93,98,120",
                         "endOffsets": "221,432,573,696,919,1046,1181,1316,1776,1894,2099,2237,2445,2636,2730,2829,2950"
-                    }
-                },
-                {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-17.0.0.aar/80b836601f4a79996cdf50896708c7b2/res/values-ml/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "218",
-                        "endOffsets": "465"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1321",
-                        "endColumns": "218",
-                        "endOffsets": "1535"
                     }
                 }
             ]

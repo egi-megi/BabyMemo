@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/egi-megi/WEITI/studia/2019-2010_semZimowy/przedmioty/WPAM/projekt/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "/Users/egi-megi/Documents/WEITI/2019_2020_zima/WPAM/BabyMemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/home/egi-megi/.gradle/caches/transforms-1/files-1.1/jetified-play-services-auth-16.0.1.aar/ea6a08b61a7300fd718f25aee6aeab14/res/values-watch-v20/values.xml",
+                    "source": "/Users/egi-megi/.gradle/caches/transforms-1/files-1.1/jetified-play-services-auth-16.0.1.aar/fb89b15815839df810a8de1c5ba9326f/res/values-watch-v20/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
