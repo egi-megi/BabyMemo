@@ -18,10 +18,19 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/home_page.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'package:sharing_codelab/model/issues.dart';
 
-void main() {
-  final apiModel = PhotosLibraryApiModel();
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  String jsonString  =  await rootBundle.loadString("assets/issues.json");
+  var issues=Issues.fromJson(jsonString);
+  final apiModel = PhotosLibraryApiModel(issues);
   apiModel.signInSilently();
+
+
   runApp(
     ScopedModel<PhotosLibraryApiModel>(
       model: apiModel,

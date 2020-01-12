@@ -19,6 +19,7 @@ import 'dart:io';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sharing_codelab/model/issues.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_request.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_response.dart';
@@ -35,12 +36,16 @@ import 'package:sharing_codelab/photos_library_api/share_album_request.dart';
 import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
 
 class PhotosLibraryApiModel extends Model {
-  PhotosLibraryApiModel() {
+  PhotosLibraryApiModel(mIssues) {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       _currentUser = account;
       notifyListeners();
+
     });
+    this.mIssues=mIssues;
   }
+
+  Issues mIssues;
 
   final LinkedHashSet<Album> _albums = LinkedHashSet<Album>();
   bool hasAlbums = false;

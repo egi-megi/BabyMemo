@@ -1,9 +1,12 @@
 import 'dart:collection';
 import 'dart:convert';
-
+import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kalendar/kalendar.dart';
-import 'package:sharing_codelab/model/question.dart';
+import 'package:sharing_codelab/model/issue.dart';
+import 'package:sharing_codelab/model/issues.dart';
+import 'package:sharing_codelab/model/photos_library_api_model.dart';
 
 class Calendar3Page extends StatefulWidget {
   @override
@@ -14,20 +17,14 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
   var _events = Map<String, List<String>>();
   final _selectedDates = HashSet<String>();
 
-  /*static String jsonString = '[{"id": "1a", "text": "Pierwszy krok"}]';
-  static Map questionMap = jsonDecode(jsonString);
-  var question = Question.fromJson(questionMap);*/
 
-  static var jsonData = '{ "id" : "1a", "text" : "Pierwszy krok"  }';
-  /*Future<String> loadAsset(BuildContext context) async {
-    return await DefaultAssetBundle.of(context).loadString('assets/my_text.txt');
-  }
-  static var jsonData = loadAsset(context);*/
-  static var questionParsedJson = json.decode(jsonData);
-  var question = Question(questionParsedJson);
+
+
 
   @override
   Widget build(BuildContext context) {
+    return ScopedModelDescendant<PhotosLibraryApiModel>(
+        builder: (context, child, apiModel) {
     return new Scaffold(
         body: Container(
       padding: EdgeInsets.symmetric(horizontal: 4),
@@ -55,20 +52,22 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 16,
-            children: <Widget>[
-              RaisedButton(
+            children:
+              apiModel.mIssues.idToIssueMap.values.map((x)=>
+              RaisedButton ( child: Text(x.text), )).toList(),
+          /*  <Widget>[RaisedButton(
                 onPressed: () {
                   _selectedDates.forEach((date) {
                     if (_events[date] == null) {
                       _events[date] = [];
                     }
                     debugPrint('pressed me');
-                    _events[date].add(question.text);
+                    _events[date].add(apiModel.mIssues.idToIssueMap.values.first.text);
                   });
 
                   setState(() {});
                 },
-                child: Text(question.text),
+                child: Text(apiModel.mIssues.idToIssueMap.values.first.text),
               ),
               RaisedButton(
                 onPressed: () {
@@ -140,7 +139,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
                 },
                 child: Text('Holiday'),
               ),
-            ],
+            ],*/
           ),
 
           Center(
@@ -152,9 +151,10 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
         ],
       ),
     ));
-  }
+  });
 }
 
+}
 class CustomDayTile extends StatelessWidget {
   final DayProps props;
 
