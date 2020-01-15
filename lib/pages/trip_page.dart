@@ -191,7 +191,7 @@ class _TripPageState extends State<TripPage> {
             .createMediaItem(result.uploadToken,  result.description);
       }).then((BatchCreateMediaItemsResponse response) {
         return ScopedModel.of<PhotosLibraryApiModel>(context)
-            .searchMediaItems(album.id);
+            .searchMediaItems();
       });
     });
   }

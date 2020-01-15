@@ -18,6 +18,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sharing_codelab/model/challenge.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/create_trip_page.dart';
 import 'package:sharing_codelab/pages/join_trip_page.dart';
@@ -25,6 +26,7 @@ import 'package:sharing_codelab/components/primary_raised_button.dart';
 import 'package:sharing_codelab/components/baby_memo_app_bar.dart';
 import 'package:sharing_codelab/pages/trip_page.dart';
 import 'package:sharing_codelab/pages/single_challange_page.dart';
+import 'package:sharing_codelab/pages/calendar_3_page.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/util/to_be_implemented.dart';
 
@@ -41,6 +43,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
   var _events = Map<String, List<String>>();
   final _selectedDates = HashSet<String>();
   bool _isLoading = false;
+  //Challenge challenge;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +89,17 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
                       photosLibraryApi.mChallanges.idToChallengesMap.values.map((x)=>
                           RaisedButton (
                             child: Text(x.text),
-                            onPressed: () => _navigateToSingleChallange(context, photosLibraryApi),)).toList(),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    SingleChallengePage(
+                                      challenge : x,
+                                      searchResponse:
+                                      photosLibraryApi.searchMediaItems(),
+                                    ),
+                              ),
+                            ),)).toList(),
                       /*  <Widget>[RaisedButton(
                 onPressed: () {
                   _selectedDates.forEach((date) {
@@ -195,9 +208,9 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  Future<void> _navigateToSingleChallange(BuildContext context, PhotosLibraryApiModel photosLibraryApi) async {
+  /*Future<void> _navigateToSingleChallange(BuildContext context, PhotosLibraryApiModel photosLibraryApi) async {
     // Display the loading indicator.
-    setState(() => _isLoading = true);
+    /*setState(() => _isLoading = true);
     if (!photosLibraryApi.hasAlbums) {
       await photosLibraryApi
           .createAlbum("first2years")
@@ -217,7 +230,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
           ),
         );
       });
-    } else {
+    } else {*/
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -228,9 +241,21 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
               ),
         ),
       );
-    }
 
-  }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => TripPage(
+            album: sharedAlbum,
+            searchResponse:
+            photosLibraryApi.searchMediaItems(sharedAlbum.id),
+          ),
+        ),
+      ),
+   // }
+
+  }*/
 
   /*void _navigateToSingleChallange(BuildContext context) {
 

@@ -28,8 +28,9 @@ class Challenge {
   }
 
   String getDescription() {
-    String dateString=_date.toIso8601String();
-    return   "#${id} ${dateString}"; //dodac date
+    //String dateString=_date.toIso8601String();
+    //return   "#${id} ${dateString}"; //dodac date
+    return   "#${id}hop";
 }
   static String findIdFromDescription(String description) {
     if (description[0]!='#') {

@@ -20,8 +20,8 @@ import 'package:semaphore/lock.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/model/chalange.dart';
-import 'package:sharing_codelab/model/chalanges.dart';
+import 'package:sharing_codelab/model/challenge.dart';
+import 'package:sharing_codelab/model/challenges.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_request.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_response.dart';
@@ -163,9 +163,9 @@ class PhotosLibraryApiModel extends Model {
     });
   }
 
-  Future<SearchMediaItemsResponse> searchMediaItems(String albumId) async {
+  Future<SearchMediaItemsResponse> searchMediaItems() async {
     return client
-        .searchMediaItems(SearchMediaItemsRequest.albumId(albumId))
+        .searchMediaItems(SearchMediaItemsRequest.albumId(_twoFirstYears.id))
         .then((SearchMediaItemsResponse response) {
       return response;
     });
@@ -223,7 +223,7 @@ class PhotosLibraryApiModel extends Model {
     }
    // and fix challenges
 
-    await searchMediaItems(_twoFirstYears.id).then((item)=>{
+    await searchMediaItems().then((item)=>{
       if (item!=null && item.mediaItems!=null){
         item.mediaItems.forEach((mi) =>
         {

@@ -104,7 +104,7 @@ class TripListPage extends StatelessWidget {
                 builder: (BuildContext context) => TripPage(
                       album: sharedAlbum,
                       searchResponse:
-                          photosLibraryApi.searchMediaItems(sharedAlbum.id),
+                          photosLibraryApi.searchMediaItems(),
                     ),
               ),
             ),

@@ -20,7 +20,7 @@ import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/home_page.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import 'package:sharing_codelab/model/chalanges.dart';
+import 'package:sharing_codelab/model/challenges.dart';
 
 
 void main() async{

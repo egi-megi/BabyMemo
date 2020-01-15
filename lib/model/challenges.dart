@@ -1,4 +1,4 @@
-import 'package:sharing_codelab/model/chalange.dart';
+import 'package:sharing_codelab/model/challenge.dart';
 import 'dart:convert';
 class Challenges {
 
