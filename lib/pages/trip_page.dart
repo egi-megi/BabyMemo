@@ -188,7 +188,7 @@ class _TripPageState extends State<TripPage> {
             return ContributePhotoDialog();
           }).then((ContributePhotoResult result) {
         return ScopedModel.of<PhotosLibraryApiModel>(context)
-            .createMediaItem(result.uploadToken, album.id, result.description);
+            .createMediaItem(result.uploadToken,  result.description);
       }).then((BatchCreateMediaItemsResponse response) {
         return ScopedModel.of<PhotosLibraryApiModel>(context)
             .searchMediaItems(album.id);

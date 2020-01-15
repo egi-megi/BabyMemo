@@ -33,6 +33,7 @@ dependencies:
   cached_network_image: ^2.0.0-rc
   fluttertoast: ^3.1.2
   path: any
+  semaphore: any
   flutter_svg: ^0.14.0
   firebase_core: ^0.4.0+9
   firebase_auth: ^0.14.0+5

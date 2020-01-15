@@ -16,10 +16,11 @@
 
 import 'dart:collection';
 import 'dart:io';
-
+import 'package:semaphore/lock.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sharing_codelab/model/chalange.dart';
 import 'package:sharing_codelab/model/chalanges.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/photos_library_api/batch_create_media_items_request.dart';
@@ -39,6 +40,8 @@ import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
 import 'google_http_clent.dart';
 
 class PhotosLibraryApiModel extends Model {
+  static const  ALBUM_NAME="first2years";
+
   PhotosLibraryApiModel(mIssues) {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       _currentUser = account;
@@ -51,11 +54,13 @@ class PhotosLibraryApiModel extends Model {
   Challenges mChallanges;
 
   final LinkedHashSet<Album> _albums = LinkedHashSet<Album>();
+  Album _twoFirstYears=null;
   bool hasAlbums = false;
   PhotosLibraryApiClient client;
   CalendarApi calendarClient;
 
   GoogleSignInAccount _currentUser;
+
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: <String>[
     'profile',
@@ -65,14 +70,24 @@ class PhotosLibraryApiModel extends Model {
   ]);
   GoogleSignInAccount get user => _currentUser;
 
-  bool isLoggedIn() {
+  Lock loading=new Lock();
+
+  Future<bool> isLoggedInAndLoaded() async {
+    loading.acquire();
+    loading.release();
     return _currentUser != null;
   }
 
+  bool isLoggedIn()  {
+    return _currentUser != null && client!=null;
+  }
+
   Future<bool> signIn() async {
+    loading.acquire();
     await _googleSignIn.signIn();
     if (_currentUser == null) {
       // User could not be signed in
+      loading.release();
       return false;
     }
 
@@ -88,9 +103,15 @@ class PhotosLibraryApiModel extends Model {
       c.summary = "test baby memo";
       calendarClient.calendars.insert(c);
     }
-    updateAlbums();
+    _updateAlbumsAndReleaseLoading();
     return true;
   }
+
+  void _updateAlbumsAndReleaseLoading() async {
+    await updateAlbums();
+    loading.release();
+  }
+
 
   Future<void> signOut() async {
     await _googleSignIn.disconnect();
@@ -155,10 +176,10 @@ class PhotosLibraryApiModel extends Model {
   }
 
   Future<BatchCreateMediaItemsResponse> createMediaItem(
-      String uploadToken, String albumId, String description) {
+      String uploadToken,  String description) {
     // Construct the request with the token, albumId and description.
     final BatchCreateMediaItemsRequest request =
-    BatchCreateMediaItemsRequest.inAlbum(uploadToken, albumId, description);
+    BatchCreateMediaItemsRequest.inAlbum(uploadToken, _twoFirstYears.id , description);
 
     // Make the API call to create the media item. The response contains a
     // media item.
@@ -192,8 +213,37 @@ class PhotosLibraryApiModel extends Model {
     _albums.addAll(list.expand((a) => a ?? []));
 
     notifyListeners();
+    print("albums updated");
+
+    // find your album
+    _twoFirstYears=_albums.firstWhere((a)=>a.title==ALBUM_NAME, orElse:()=> null);
+    if (_twoFirstYears==null) {
+      //create album
+      _twoFirstYears=await createAlbum(ALBUM_NAME);
+    }
+   // and fix challenges
+
+    await searchMediaItems(_twoFirstYears.id).then((item)=>{
+      if (item!=null && item.mediaItems!=null){
+        item.mediaItems.forEach((mi) =>
+        {
+          if (mChallanges.idToChallengesMap.containsKey(
+              Challenge.findIdFromDescription(mi.description))){
+            mChallanges.idToChallengesMap[(Challenge.findIdFromDescription(
+                mi.description))]
+                .date = (Challenge.findDateFromDescription(mi.description))
+          }
+        })
+      }
+    });
+
+
     hasAlbums = true;
+
   }
+
+
+
 
   /// Load Albums into the model by retrieving the list of all albums shared
   /// with the user.

@@ -9,6 +9,7 @@ import 'package:sharing_codelab/model/chalanges.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/trip_list_page.dart';
 import 'package:sharing_codelab/pages/list_of_chalanges.dart';
+import 'package:sharing_codelab/components/baby_memo_app_bar.dart';
 
 class Calendar3Page extends StatefulWidget {
   @override
@@ -20,11 +21,17 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
   final _selectedDates = HashSet<String>();
 
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: BabyMemoAppBar(),
+      body: _buildBody(context),
+    );
+  }
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget _buildBody(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
         builder: (context, child, apiModel) {
     return new Scaffold(
@@ -156,8 +163,8 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 try {
-                  await apiModel.signIn()
-                      ? _navigateToTripList(context)
+                  (await apiModel.isLoggedInAndLoaded())
+                      ? _navigateToChallangeList(context)
                       : _showSignInError(context);
                 } on Exception catch (error) {
                   print(error);
@@ -180,7 +187,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  void _navigateToTripList(BuildContext context) {
+  void _navigateToChallangeList(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

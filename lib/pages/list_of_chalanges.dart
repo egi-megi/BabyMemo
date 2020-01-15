@@ -24,222 +24,389 @@ import 'package:sharing_codelab/pages/join_trip_page.dart';
 import 'package:sharing_codelab/components/primary_raised_button.dart';
 import 'package:sharing_codelab/components/baby_memo_app_bar.dart';
 import 'package:sharing_codelab/pages/trip_page.dart';
+import 'package:sharing_codelab/pages/single_challange_page.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/util/to_be_implemented.dart';
 
-class ChalangesListPage extends StatelessWidget {
+import 'dart:collection';
+import 'package:kalendar/kalendar.dart';
 
-  Album album;
+
+class ChalangesListPage extends StatefulWidget {
+  @override
+  _CustomizedChalangesListState createState() => _CustomizedChalangesListState();
+}
+
+class _CustomizedChalangesListState extends State<ChalangesListPage> {
+  var _events = Map<String, List<String>>();
+  final _selectedDates = HashSet<String>();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: BabyMemoAppBar(),
-      body: _buildChalangesList(),
+      body: _buildBody(context),
     );
   }
 
-  Widget _buildChalangesList() {
+
+
+  Widget _buildBody(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder: (BuildContext context, Widget child,
-          PhotosLibraryApiModel photosLibraryApi) {
-        if (!photosLibraryApi.hasAlbums) {
-          return Center(
-            child: const CircularProgressIndicator(),
+        builder: (context, child, photosLibraryApi) {
+          return new Scaffold(
+              body: Container(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Column(
+                  children: <Widget>[
+                    /*Expanded(
+                      child: Kalendar(
+                        selectedDates: _selectedDates,
+                        markedDates: _events,
+                        dayTileMargin: 1,
+                        dayTileBuilder: (DayProps props) {
+                          return CustomDayTile(props);
+                        },
+                        onTap: (DateTime dateTime, bool isSelected) {
+                          debugPrint(dateTime.toIso8601String());
+                          debugPrint('$isSelected');
+                          setState(() {
+                            _selectedDates.clear();
+                            _selectedDates.add(formatDate(dateTime));
+                          });
+                        },
+                      ),
+                    ),*/
 
-          );
-        }
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      children:
+                      photosLibraryApi.mChallanges.idToChallengesMap.values.map((x)=>
+                          RaisedButton (
+                            child: Text(x.text),
+                            onPressed: () => _navigateToSingleChallange(context, photosLibraryApi),)).toList(),
+                      /*  <Widget>[RaisedButton(
+                onPressed: () {
+                  _selectedDates.forEach((date) {
+                    if (_events[date] == null) {
+                      _events[date] = [];
+                    }
+                    debugPrint('pressed me');
+                    _events[date].add(apiModel.mIssues.idToIssueMap.values.first.text);
+                  });
 
-        if (photosLibraryApi.albums.isEmpty) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              SvgPicture.asset(
-                'assets/ic_fieldTrippa.svg',
-                color: Colors.grey[300],
-                height: 148,
+                  setState(() {});
+                },
+                child: Text(apiModel.mIssues.idToIssueMap.values.first.text),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "You're not currently a member of any trip albums. "
-                      'Create a new trip album or join an existing one below.',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 16),
-                  textAlign: TextAlign.center,
+              RaisedButton(
+                onPressed: () {
+                  _selectedDates.forEach((date) {
+                    if (_events[date] == null) {
+                      _events[date] = [];
+                    }
+
+                    _events[date].add('Wedding');
+                  });
+
+                  setState(() {});
+                },
+                child: Text('Wedding'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  _selectedDates.forEach((date) {
+                    if (_events[date] == null) {
+                      _events[date] = [];
+                    }
+
+                    _events[date].add('Dentist');
+                  });
+
+                  setState(() {});
+                },
+                child: Text('Dentist'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  _selectedDates.forEach((date) {
+                    if (_events[date] == null) {
+                      _events[date] = [];
+                    }
+
+                    _events[date].add('Interview');
+                  });
+
+                  setState(() {});
+                },
+                child: Text('Interview'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  _selectedDates.forEach((date) {
+                    if (_events[date] == null) {
+                      _events[date] = [];
+                    }
+
+                    _events[date].add('Blackday');
+                  });
+
+                  setState(() {});
+                },
+                child: Text('Blackday'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  _selectedDates.forEach((date) {
+                    if (_events[date] == null) {
+                      _events[date] = [];
+                    }
+
+                    _events[date].add('Holiday');
+                  });
+
+                  setState(() {});
+                },
+                child: Text('Holiday'),
+              ),
+            ],*/
+                    ),
+
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                        child: Text(_selectedDates.toString()),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              _buildButtons(context),
-            ],
           );
-        }
+        });
+  }
+  void _showSignInError(BuildContext context) {
+    final SnackBar snackBar = SnackBar(
+      duration: Duration(seconds: 3),
+      content: const Text('Could not sign in.\n'
+          'Is the Google Services file missing?'),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
 
-        return ListView.builder(
-          itemCount: photosLibraryApi.albums.length + 1,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return _buildButtons(context);
-            }
+  Future<void> _navigateToSingleChallange(BuildContext context, PhotosLibraryApiModel photosLibraryApi) async {
+    // Display the loading indicator.
+    setState(() => _isLoading = true);
+    if (!photosLibraryApi.hasAlbums) {
+      await photosLibraryApi
+          .createAlbum("first2years")
+          .then((Album album) {
+        ToBeImplemented.showMessage();
 
-            return _buildTripCard(
-                context, photosLibraryApi.albums[index - 1], photosLibraryApi);
-          },
+        // Hide the loading indicator.
+        setState(() => _isLoading = false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) =>
+                SingleChallangePage(
+                  searchResponse:
+                  photosLibraryApi.searchMediaItems(album.id),
+                ),
+          ),
         );
-      },
-    );
-  }
-
-  Widget _buildTripCard(BuildContext context, Album sharedAlbum,
-      PhotosLibraryApiModel photosLibraryApi) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-      ),
-      elevation: 3,
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 33,
-      ),
-      child: InkWell(
-        onTap: () =>
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    TripPage(
-                      album: sharedAlbum,
-                      searchResponse:
-                      photosLibraryApi.searchMediaItems(sharedAlbum.id),
-                    ),
+      });
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) =>
+              SingleChallangePage(
+               searchResponse:
+                photosLibraryApi.searchMediaItems(photosLibraryApi.albums[0].id),
               ),
-            ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: _buildTripThumbnail(sharedAlbum),
-            ),
-            Container(
-              height: 52,
-              padding: const EdgeInsets.only(left: 8),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                _buildSharedIcon(sharedAlbum),
-                Align(
-                  alignment: const FractionalOffset(0, 0.5),
-                  child: Text(
-                    sharedAlbum.title ?? '[no title]',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTripThumbnail(Album sharedAlbum) {
-    if (sharedAlbum.coverPhotoBaseUrl == null ||
-        sharedAlbum.mediaItemsCount == null) {
-      return Container(
-        height: 160,
-        width: 346,
-        color: Colors.grey[200],
-        padding: const EdgeInsets.all(5),
-        child: SvgPicture.asset(
-          'assets/ic_fieldTrippa.svg',
-          color: Colors.grey[350],
         ),
       );
     }
 
-    return CachedNetworkImage(
-      imageUrl: '${sharedAlbum.coverPhotoBaseUrl}=w346-h160-c',
-      placeholder: (BuildContext context, String url) =>
-      const CircularProgressIndicator(),
-      errorWidget: (BuildContext context, String url, Object error) {
-        print(error);
-        return const Icon(Icons.error);
-      },
-    );
   }
 
-  Widget _buildButtons(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          PrimaryRaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => CreateTripPage(),
-                ),
-              );
-            },
-            label: const Text('CREATE A TRIP ALBUM'),
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              ' - or - ',
-              style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
+  /*void _navigateToSingleChallange(BuildContext context) {
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => TripPage(
+          album: sharedAlbum,
+          searchResponse:
+          photosLibraryApi.searchMediaItems(sharedAlbum.id),
+        ),
+      ),
+    ),
+    /*Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => ChalangesListPage(),
+      ),
+    );*/
+  }*/
+
+}
+
+
+class CustomDayTile extends StatelessWidget {
+  final DayProps props;
+
+  CustomDayTile(this.props);
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    if (props.events != null && props.events[0] == 'Holiday') {
+      return Container(
+        color: Colors.red,
+        child: Center(
+          child: Text(
+            '${props.dateTime.day}',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
-          FlatButton(
-            textColor: Colors.green[800],
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => JoinTripPage(),
-                ),
-              );
-            },
-            child: const Text('JOIN A TRIP ALBUM'),
+        ),
+      );
+    }
+
+    if (props.events != null && props.events[0] == 'Blackday') {
+      return Container(
+        color: Colors.black,
+        child: Center(
+          child: Text(
+            '${props.dateTime.day}',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
+        ),
+      );
+    }
+
+    return Container(
+      margin: EdgeInsets.all(props.dayTileMargin ?? 3),
+      decoration: BoxDecoration(
+        border: Border.all(color: Theme.of(context).primaryColor
+          // width: 1,
+          // color: props.dayTileBorderColor ?? Colors.grey,
+        ),
+        // borderRadius: BorderRadius.circular(props.borderRadius),
+        color: props.isSelected ? Colors.green : Colors.transparent,
+      ),
+      child: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment:
+            props.events != null && props.events[0] == 'Tennis'
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                '${props.dateTime.day}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: props.isDayOfCurrentMonth
+                      ? Colors.black87
+                      : props.isSelected ? Colors.white54 : Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          _EventMark(props.events),
         ],
       ),
     );
   }
+}
 
-  Widget _buildSharedIcon(Album album) {
-    if (album.shareInfo != null) {
-      return const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.folder_shared,
-            color: Colors.black38,
-          ));
-    } else {
+class _EventMark extends StatelessWidget {
+  final List<String> events;
+  _EventMark(this.events);
+
+  @override
+  Widget build(BuildContext context) {
+    if (events == null) {
       return Container();
     }
+
+    if (events[0] == 'Wedding') {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.all(2),
+          padding: EdgeInsets.all(2),
+          color: Colors.purple,
+          child: Text('Wedding',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  .copyWith(color: Colors.white, fontSize: 11)),
+        ),
+      );
+    }
+
+    if (events[0] == 'Dentist') {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.all(2),
+          padding: EdgeInsets.all(2),
+          color: Colors.deepOrange,
+          child: Text('Dentist',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  .copyWith(color: Colors.white, fontSize: 11)),
+        ),
+      );
+    }
+
+    if (events[0] == 'Tennis') {
+      return Container(
+        margin: EdgeInsets.all(2),
+        padding: EdgeInsets.all(2),
+        child: Image.network(
+          'https://upload.wikimedia.org/wikipedia/commons/c/c3/P_tennis.png',
+          width: 40,
+        ),
+      );
+    }
+
+    if (events[0] == 'Interview') {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.all(2),
+          padding: EdgeInsets.all(2),
+          color: Colors.black,
+          child: Text('Interview',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  .copyWith(color: Colors.white, fontSize: 11)),
+        ),
+      );
+    }
+
+    return Container();
   }
 
-  /*Future<void> _createTrip(BuildContext context) async {
-    // Display the loading indicator.
-    setState(() => _isLoading = true);
 
-    // TODO(codelab): Implement call to PhotosLibraryApiModel scope here.
-    await ScopedModel.of<PhotosLibraryApiModel>(context)
-        .createAlbum(tripNameFormController.text)
-        .then((Album album) {
-      ToBeImplemented.showMessage();
 
-      // Hide the loading indicator.
-      setState(() => _isLoading = false);
-      Navigator.pop(context);
-    });
-
-  }*/
 
 }
