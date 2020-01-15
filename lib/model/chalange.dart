@@ -1,13 +1,16 @@
 class Challenge {
   final String id;
   final String text;
+  final int expectedMonth;
   DateTime _date=null;
 
-  Challenge(this.id, this.text);
+  Challenge(this.id, this.text, this.expectedMonth);
 
   Challenge.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        text = json['text'];
+        text = json['text'],
+        expectedMonth=json['expected_month'];
+
 
   Map<String, dynamic> toJson() =>
     {

@@ -1,8 +1,10 @@
 [{
   "id": "1a",
-  "text": "Pierwszy krok"
+  "text": "Pierwszy krok",
+  "expected_month" : 2
 },
   {
     "id": "1b",
-    "text": "Drugi krok"
+    "text": "Drugi krok",
+    "expected_montch" : 3
   }]
