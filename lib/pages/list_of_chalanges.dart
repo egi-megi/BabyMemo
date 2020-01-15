@@ -86,7 +86,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
                       alignment: WrapAlignment.center,
                       spacing: 16,
                       children:
-                      photosLibraryApi.mChallanges.idToChallengesMap.values.map((x)=>
+                      photosLibraryApi.mChallanges.getUnHappened().map((x)=>
                           RaisedButton (
                             child: Text(x.text),
                             onPressed: () => Navigator.push(

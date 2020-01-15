@@ -1,9 +1,11 @@
+import 'package:sharing_codelab/photos_library_api/media_item.dart';
+
 class Challenge {
   final String id;
   final String text;
   final int expectedMonth;
   DateTime _date=null;
-
+  MediaItem mi=null;
   Challenge(this.id, this.text, this.expectedMonth);
 
   Challenge.fromJson(Map<String, dynamic> json)
@@ -28,9 +30,13 @@ class Challenge {
   }
 
   String getDescription() {
-    //String dateString=_date.toIso8601String();
-    //return   "#${id} ${dateString}"; //dodac date
-    return   "#${id}hop";
+    if (_date==null) {
+      _date=DateTime.now();
+    }
+    String dateString=_date.toIso8601String();
+
+    return   "#${id} ${dateString}"; //dodac date
+    //return   "#${id}";
 }
   static String findIdFromDescription(String description) {
     if (description[0]!='#') {

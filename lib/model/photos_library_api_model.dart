@@ -73,7 +73,7 @@ class PhotosLibraryApiModel extends Model {
   Lock loading=new Lock();
 
   Future<bool> isLoggedInAndLoaded() async {
-    loading.acquire();
+    await loading.acquire();
     loading.release();
     return _currentUser != null;
   }
@@ -83,7 +83,7 @@ class PhotosLibraryApiModel extends Model {
   }
 
   Future<bool> signIn() async {
-    loading.acquire();
+    await loading.acquire();
     await _googleSignIn.signIn();
     if (_currentUser == null) {
       // User could not be signed in
@@ -163,12 +163,20 @@ class PhotosLibraryApiModel extends Model {
     });
   }
 
+
+  Future<SearchMediaItemsResponse> _searchMediaItems() async {
+      return client
+          .searchMediaItems(SearchMediaItemsRequest.albumId(_twoFirstYears.id))
+          .then((SearchMediaItemsResponse response) {
+        return response;
+      });
+  }
   Future<SearchMediaItemsResponse> searchMediaItems() async {
-    return client
-        .searchMediaItems(SearchMediaItemsRequest.albumId(_twoFirstYears.id))
-        .then((SearchMediaItemsResponse response) {
-      return response;
-    });
+    if (await isLoggedInAndLoaded()) {
+        return _searchMediaItems();
+    } else {
+      return null;
+    }
   }
 
   Future<String> uploadMediaItem(File image) {
@@ -223,20 +231,24 @@ class PhotosLibraryApiModel extends Model {
     }
    // and fix challenges
 
-    await searchMediaItems().then((item)=>{
+    Challenge ch;
+    await _searchMediaItems().then((item)=>{
       if (item!=null && item.mediaItems!=null){
         item.mediaItems.forEach((mi) =>
         {
           if (mChallanges.idToChallengesMap.containsKey(
               Challenge.findIdFromDescription(mi.description))){
-            mChallanges.idToChallengesMap[(Challenge.findIdFromDescription(
-                mi.description))]
-                .date = (Challenge.findDateFromDescription(mi.description))
+                 mChallanges.idToChallengesMap[Challenge.findIdFromDescription(
+                       mi.description)]
+                   ..date = (Challenge.findDateFromDescription(mi.description))
+                   ..mi= mi
+          } else {
+
           }
         })
       }
     });
-
+    print("got media");
 
     hasAlbums = true;
 

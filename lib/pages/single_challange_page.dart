@@ -73,9 +73,24 @@ class _SingleChallengeState extends State<SingleChallengePage> {
           body: Container(
             padding: const EdgeInsets.all(14),
             child: SingleChildScrollView(
-              child: IntrinsicHeight(
                 child: Column(
-                  children: <Widget>[
+                  children:
+                (challenge.date!=null && challenge.mi!=null) ?
+          <Widget>[ Text(
+            challenge.text,
+            ),
+            Text("${challenge.date.year}-${challenge.date.month}-${challenge.date.day}  "),
+            CachedNetworkImage(
+              imageUrl: '${challenge.mi.baseUrl}=w364',
+              placeholder: (BuildContext context, String url) =>
+              const CircularProgressIndicator(),
+              errorWidget: (BuildContext context, String url, Object error) {
+                print(error);
+                return const Icon(Icons.error);
+              },
+            ),
+            ] :
+            <Widget>[
                     _buildUploadButton(context),
                     Text(
                       challenge.text,
@@ -86,7 +101,7 @@ class _SingleChallengeState extends State<SingleChallengePage> {
                     )
                   ],
                 ),
-              ),
+
             ),
           )
           );
@@ -286,16 +301,12 @@ class _SingleChallengeState extends State<SingleChallengePage> {
   }
 
   void _contributePhoto(BuildContext context) {
+    challenge.date=DateTime.now();
     setState(() {
-      searchResponse = showDialog<ContributePhotoResult>(
-          context: context,
-          builder: (BuildContext context) {
-            return ContributePhotoDialog();
-          }).then((ContributePhotoResult result) {
-
-        return ScopedModel.of<PhotosLibraryApiModel>(context)
-            .createMediaItem(result.uploadToken, challenge.getDescription()/*description from challenge here*//*result.description*/);
-      }).then((BatchCreateMediaItemsResponse response) {
+      searchResponse =
+      (ScopedModel.of<PhotosLibraryApiModel>(context)
+            .createMediaItem(_uploadToken, challenge.getDescription())
+      ).then((BatchCreateMediaItemsResponse response) {
         return ScopedModel.of<PhotosLibraryApiModel>(context)
             .searchMediaItems();
       });

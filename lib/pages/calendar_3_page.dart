@@ -7,6 +7,7 @@ import 'package:kalendar/kalendar.dart';
 import 'package:sharing_codelab/model/challenge.dart';
 import 'package:sharing_codelab/model/challenges.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
+import 'package:sharing_codelab/pages/single_challange_page.dart';
 import 'package:sharing_codelab/pages/trip_list_page.dart';
 import 'package:sharing_codelab/pages/list_of_chalanges.dart';
 import 'package:sharing_codelab/components/baby_memo_app_bar.dart';
@@ -19,7 +20,7 @@ class Calendar3Page extends StatefulWidget {
 class _CustomizedCalendarState extends State<Calendar3Page> {
   var _events = Map<String, List<String>>();
   final _selectedDates = HashSet<String>();
-
+  Future<bool> _loaded;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +34,15 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
   @override
   Widget _buildBody(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-        builder: (context, child, apiModel) {
-    return new Scaffold(
-        body: Container(
+        builder: (context, child, apiModel)
+    {
+      _loaded=apiModel.isLoggedInAndLoaded();
+      return new
+      FutureBuilder(
+         future: _loaded,
+          builder : (BuildContext context, AsyncSnapshot<bool> b) {return
+      Scaffold(
+      body: Container(
       padding: EdgeInsets.symmetric(horizontal: 4),
       child: Column(
         children: <Widget>[
@@ -58,13 +65,27 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
             ),
           ),
 
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 16,
-            children:
-              apiModel.mChallanges.idToChallengesMap.values.map((x)=>
-              RaisedButton ( child: Text(x.text), )).toList(),
-          /*  <Widget>[RaisedButton(
+      Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 16,
+      children:
+      apiModel.mChallanges.getHappened(2020, 1).map((x)=>
+      RaisedButton ( child: Text(x.text),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      SingleChallengePage(
+                        challenge: x,
+                        searchResponse:
+                        apiModel.searchMediaItems(),
+                      ),
+                ),
+              );
+            }
+      )).toList(),
+      /*  <Widget>[RaisedButton(
                 onPressed: () {
                   _selectedDates.forEach((date) {
                     if (_events[date] == null) {
@@ -149,34 +170,35 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
                 child: Text('Holiday'),
               ),
             ],*/
-          ),
-
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Text(_selectedDates.toString()),
-            ),
-          )
-        ],
       ),
-        ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                try {
-                  (await apiModel.isLoggedInAndLoaded())
-                      ? _navigateToChallangeList(context)
-                      : _showSignInError(context);
-                } on Exception catch (error) {
-                  print(error);
-                  _showSignInError(context);
-                }
 
-              },
-              child: Text("+"),
-              backgroundColor: Colors.deepPurpleAccent,
-            )
-    );
-  });
+      Center(
+      child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      child: Text(_selectedDates.toString()),
+      ),
+      )
+      ],
+      ),
+      ),
+      floatingActionButton: FloatingActionButton(
+      onPressed: () async {
+      try {
+      (await apiModel.isLoggedInAndLoaded())
+      ? _navigateToChallangeList(context)
+          : _showSignInError(context);
+      } on Exception catch (error) {
+      print(error);
+      _showSignInError(context);
+      }
+
+      },
+      child: Text("+"),
+      backgroundColor: Colors.deepPurpleAccent,
+      )
+      );
+      });
+    });
 }
   void _showSignInError(BuildContext context) {
     final SnackBar snackBar = SnackBar(
