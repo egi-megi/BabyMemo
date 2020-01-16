@@ -21,6 +21,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
   var _events = Map<String, List<String>>();
   final _selectedDates = HashSet<String>();
   Future<bool> _loaded;
+  Kalendar calendarView;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,22 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
         builder: (context, child, apiModel)
     {
       _loaded=apiModel.isLoggedInAndLoaded();
+      calendarView=Kalendar(
+        selectedDates: _selectedDates,
+        markedDates: _events,
+        dayTileMargin: 1,
+        dayTileBuilder: (DayProps props) {
+          return CustomDayTile(props);
+        },
+        onTap: (DateTime dateTime, bool isSelected) {
+          debugPrint(dateTime.toIso8601String());
+          debugPrint('$isSelected');
+          setState(() {
+            _selectedDates.clear();
+            _selectedDates.add(formatDate(dateTime));
+          });
+        },
+      );
       return new
       FutureBuilder(
          future: _loaded,
@@ -47,29 +64,14 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
       child: Column(
         children: <Widget>[
           Expanded(
-            child: Kalendar(
-              selectedDates: _selectedDates,
-              markedDates: _events,
-              dayTileMargin: 1,
-              dayTileBuilder: (DayProps props) {
-                return CustomDayTile(props);
-              },
-              onTap: (DateTime dateTime, bool isSelected) {
-                debugPrint(dateTime.toIso8601String());
-                debugPrint('$isSelected');
-                setState(() {
-                  _selectedDates.clear();
-                  _selectedDates.add(formatDate(dateTime));
-                });
-              },
-            ),
+            child: calendarView
           ),
 
       Wrap(
       alignment: WrapAlignment.center,
       spacing: 16,
       children:
-      apiModel.mChallanges.getHappened(2020, 1).map((x)=>
+      apiModel.mChallanges.getHappened(2010, 1).map((x)=>
       RaisedButton ( child: Text(x.text),
             onPressed: () {
               Navigator.push(
