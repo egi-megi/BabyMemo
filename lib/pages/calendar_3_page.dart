@@ -55,18 +55,20 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
         },
       );
       return new
-      FutureBuilder(
-         future: _loaded,
-          builder : (BuildContext context, AsyncSnapshot<bool> b) {return
+
+
       Scaffold(
       body: Container(
       padding: EdgeInsets.symmetric(horizontal: 4),
-      child: Column(
+      child:  Column(
         children: <Widget>[
+          FutureBuilder(  future: _loaded,
+      builder : (BuildContext context, AsyncSnapshot<bool> b) {return
           Expanded(
             child: calendarView
-          ),
-
+          );
+    })
+      ,
       Wrap(
       alignment: WrapAlignment.center,
       spacing: 16,
@@ -87,94 +89,8 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
               );
             }
       )).toList(),
-      /*  <Widget>[RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-                    debugPrint('pressed me');
-                    _events[date].add(apiModel.mIssues.idToIssueMap.values.first.text);
-                  });
-
-                  setState(() {});
-                },
-                child: Text(apiModel.mIssues.idToIssueMap.values.first.text),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Wedding');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Wedding'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Dentist');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Dentist'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Interview');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Interview'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Blackday');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Blackday'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Holiday');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Holiday'),
-              ),
-            ],*/
       ),
-
-      Center(
+       Center(
       child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Text(_selectedDates.toString()),
@@ -200,8 +116,9 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
       )
       );
       });
-    });
-}
+    }
+
+
   void _showSignInError(BuildContext context) {
     final SnackBar snackBar = SnackBar(
       duration: Duration(seconds: 3),
