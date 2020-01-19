@@ -1,4 +1,6 @@
 import 'dart:collection';
+
+import 'package:collection/collection.dart';
 import 'dart:convert';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
   var _events = Map<String, List<String>>();
   final _selectedDates = HashSet<String>();
   Future<bool> _loaded;
-  Kalendar calendarView;
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +40,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
         builder: (context, child, apiModel)
     {
       _loaded=apiModel.isLoggedInAndLoaded();
-      calendarView=Kalendar(
-        selectedDates: _selectedDates,
-        markedDates: _events,
-        dayTileMargin: 1,
-        dayTileBuilder: (DayProps props) {
-          return CustomDayTile(props);
-        },
-        onTap: (DateTime dateTime, bool isSelected) {
-          debugPrint(dateTime.toIso8601String());
-          debugPrint('$isSelected');
-          setState(() {
-            _selectedDates.clear();
-            _selectedDates.add(formatDate(dateTime));
-          });
-        },
-      );
+
       return new
 
 
@@ -63,9 +50,30 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
       child:  Column(
         children: <Widget>[
           FutureBuilder(  future: _loaded,
-      builder : (BuildContext context, AsyncSnapshot<bool> b) {return
+      builder : (BuildContext context, AsyncSnapshot<bool> b) {
+            var map1=groupBy(apiModel.mChallanges.getAllHappened(), (Challenge mi)=>formatDate(mi.date));
+            var map2=map1.map((k, list)=> MapEntry(k, list.map((Challenge mi)=>mi.getDescription()).toList()));
+          _events.clear();
+          _events.addAll(map2);
+
+            return
           Expanded(
-            child: calendarView
+            child: Kalendar(
+              selectedDates: _selectedDates,
+              markedDates: _events,
+              dayTileMargin: 1,
+              dayTileBuilder: (DayProps props) {
+                return CustomDayTile(props, apiModel);
+              },
+              onTap: (DateTime dateTime, bool isSelected) {
+                debugPrint(dateTime.toIso8601String());
+                debugPrint('$isSelected');
+                setState(() {
+                  _selectedDates.clear();
+                  _selectedDates.add(formatDate(dateTime));
+                });
+              },
+            )
           );
     })
       ,
@@ -73,7 +81,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
       alignment: WrapAlignment.center,
       spacing: 16,
       children:
-      apiModel.mChallanges.getHappened(2010, 1).map((x)=>
+      _selectedDates.isEmpty?[Container()].toList():apiModel.mChallanges.getHappened(DateTime.parse(_selectedDates.first)).map((x)=>
       RaisedButton ( child: Text(x.text),
             onPressed: () {
               Navigator.push(
@@ -142,8 +150,9 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
 
 class CustomDayTile extends StatelessWidget {
   final DayProps props;
+  final PhotosLibraryApiModel apiModel;
 
-  CustomDayTile(this.props);
+  CustomDayTile(this.props, this.apiModel);
 
 
 
@@ -212,7 +221,7 @@ class CustomDayTile extends StatelessWidget {
               ),
             ],
           ),
-          _EventMark(props.events),
+          _EventMark(props.events, apiModel),
         ],
       ),
     );
@@ -221,13 +230,34 @@ class CustomDayTile extends StatelessWidget {
 
 class _EventMark extends StatelessWidget {
   final List<String> events;
-  _EventMark(this.events);
+   final PhotosLibraryApiModel apiModel;
+  _EventMark(this.events, this.apiModel);
 
   @override
   Widget build(BuildContext context) {
     if (events == null) {
       return Container();
     }
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.all(2),
+          padding: EdgeInsets.all(2),
+          color: Colors.purple,
+          child: Column (
+            children: events.map(
+                (desc)=>
+                  Text(apiModel.mChallanges.idToChallengesMap[Challenge.findIdFromDescription(desc)].text,
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(color: Colors.white, fontSize: 11)),
+
+                ).toList()
+        ),
+      )
+    );
+
 
     if (events[0] == 'Wedding') {
       return Align(

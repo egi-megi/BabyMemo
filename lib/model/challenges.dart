@@ -17,9 +17,9 @@ class Challenges {
     return ret;
   }
 
-  List<Challenge> getHappened(int year, int month) {
+  List<Challenge> getHappened(DateTime d) {
     List<Challenge> ret=idToChallengesMap.values
-        .where((it)=> it.date!=null && it.date.year==year && it.date.month==month ).toList();
+        .where((it)=> it.date!=null &&  it.date.year==d.year && it.date.month==d.month && it.date.day==d.day ).toList();
     ret.sort((x,y)=>x.date.compareTo(y.date));
     return ret;
   }

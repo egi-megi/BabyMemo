@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^0.14.0+5
   kalendar: ^1.0.0+3
   table_calendar: ^2.2.2
+  collection: any
 
 dev_dependencies:
   flutter_test:

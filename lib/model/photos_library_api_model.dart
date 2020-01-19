@@ -232,24 +232,28 @@ class PhotosLibraryApiModel extends Model {
    // and fix challenges
 
     Challenge ch;
-    await _searchMediaItems().then((item)=>{
-      if (item!=null && item.mediaItems!=null){
-        item.mediaItems.forEach((mi) =>
-        {
-          if (mChallanges.idToChallengesMap.containsKey(
-              Challenge.findIdFromDescription(mi.description))){
-                 mChallanges.idToChallengesMap[Challenge.findIdFromDescription(
-                       mi.description)]
-                   ..date = (Challenge.findDateFromDescription(mi.description))
-                   ..mi= mi
-          } else {
-
-          }
-        })
-      }
-    });
-    print("got media");
-
+    try {
+      await _searchMediaItems().then((item) =>
+      {
+        if (item != null && item.mediaItems != null){
+          item.mediaItems.forEach((mi) =>
+          {
+            if (mChallanges.idToChallengesMap.containsKey(
+                Challenge.findIdFromDescription(mi.description))){
+              mChallanges.idToChallengesMap[Challenge.findIdFromDescription(
+                  mi.description)]
+                ..date = (Challenge.findDateFromDescription(mi.description))
+                ..mi = mi
+            } else
+              {
+              }
+          })
+        }
+      });
+      print("got media");
+    } catch (e ) {
+      print("media getting error");
+    }
     hasAlbums = true;
 
   }

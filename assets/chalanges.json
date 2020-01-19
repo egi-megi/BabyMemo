@@ -7,4 +7,19 @@
     "id": "1b",
     "text": "Drugi krok",
     "expected_month" : 3
-  }]
+  }
+,
+  {
+    "id": "1c",
+    "text": "trzeci krok",
+    "expected_month" : 3
+  }
+,
+  {
+    "id": "1d",
+    "text": "czwarty krok",
+    "expected_month" : 3
+  }
+
+
+]

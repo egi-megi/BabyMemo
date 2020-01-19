@@ -34,7 +34,8 @@ import 'package:image_picker/image_picker.dart';
 
 
 class SingleChallengePage extends StatefulWidget {
-  const SingleChallengePage({Key key, this.searchResponse, this.challenge}) : super(key: key);
+  const SingleChallengePage({Key key, this.searchResponse, this.challenge})
+      : super(key: key);
 
   final Future<SearchMediaItemsResponse> searchResponse;
 
@@ -42,7 +43,8 @@ class SingleChallengePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() =>
-      _SingleChallengeState(searchResponse: searchResponse, challenge: challenge);
+      _SingleChallengeState(
+          searchResponse: searchResponse, challenge: challenge);
 }
 
 class _SingleChallengeState extends State<SingleChallengePage> {
@@ -50,6 +52,7 @@ class _SingleChallengeState extends State<SingleChallengePage> {
 
   File _image;
   String _uploadToken;
+  DateTime _adddate=DateTime.now();
   bool _isUploading = false;
   Future<SearchMediaItemsResponse> searchResponse;
 
@@ -70,81 +73,85 @@ class _SingleChallengeState extends State<SingleChallengePage> {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
         builder: (context, child, photosLibraryApi) {
           return new Scaffold(
-          body: Container(
-            padding: const EdgeInsets.all(14),
-            child: SingleChildScrollView(
-                child: Column(
-                  children:
-                (challenge.date!=null && challenge.mi!=null) ?
-          <Widget>[ Text(
-            challenge.text,
-            ),
-            Text("${challenge.date.year}-${challenge.date.month}-${challenge.date.day}  "),
-            CachedNetworkImage(
-              imageUrl: '${challenge.mi.baseUrl}=w364',
-              placeholder: (BuildContext context, String url) =>
-              const CircularProgressIndicator(),
-              errorWidget: (BuildContext context, String url, Object error) {
-                print(error);
-                return const Icon(Icons.error);
-              },
-            ),
-            ] :
-            <Widget>[
-                    _buildUploadButton(context),
-                    Text(
+              body: Container(
+                padding: const EdgeInsets.all(14),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children:
+                    (challenge.date != null && challenge.mi != null) ?
+                    <Widget>[ Text(
                       challenge.text,
                     ),
-                    Align(
-                      child: _buildAddButton(context),
-                      alignment: const FractionalOffset(1, 0),
-                    )
-                  ],
-                ),
+                      Text("${challenge.date.year}-${challenge.date
+                          .month}-${challenge.date.day}  "),
 
-            ),
-          )
+
+
+                      CachedNetworkImage(
+                        imageUrl: '${challenge.mi.baseUrl}=w364',
+                        placeholder: (BuildContext context, String url) =>
+                        const CircularProgressIndicator(),
+                        errorWidget: (BuildContext context, String url,
+                            Object error) {
+                          print(error);
+                          return const Icon(Icons.error);
+                        },
+                      ),
+                    ] :
+                    <Widget>[
+                      _buildUploadButton(context),
+                      Text(
+                        challenge.text,
+                      ),
+                      Align(
+                        child: _buildAddButton(context),
+                        alignment: const FractionalOffset(1, 0),
+                      )
+                    ],
+                  ),
+
+                ),
+              )
           );
         }
     );
-
   }
 
-        Widget _buildUploadButton(BuildContext context) {
-      if (_image != null) {
-        // An image has been selected, display it in the dialog
-        return Container(
-          padding: const EdgeInsets.all(12),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.file(_image),
-                _isUploading ? const LinearProgressIndicator() : Container(),
-                FutureBuilder<SearchMediaItemsResponse>(
-                  future: searchResponse,
-                  builder: _buildMediaItemList,
-                )
-              ],
-            ),
-          ),
-        );
-      }
-
-      // TODO(developer): Implement error display
-
-      // No image has been selected yet
+  Widget _buildUploadButton(BuildContext context) {
+    if (_image != null) {
+      // An image has been selected, display it in the dialog
       return Container(
         padding: const EdgeInsets.all(12),
-        child: FlatButton.icon(
-          onPressed: () => _getImage(context),
-          label: const Text('UPLOAD PHOTO'),
-          textColor: Colors.green[800],
-          icon: const Icon(Icons.file_upload),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image.file(_image),
+              _isUploading ? const LinearProgressIndicator() : Container(),
+              FutureBuilder<SearchMediaItemsResponse>(
+                future: searchResponse,
+                builder: _buildMediaItemList,
+              )
+            ],
+          ),
         ),
       );
     }
+
+    // TODO(developer): Implement error display
+
+    // No image has been selected yet
+    return Container(
+      padding: const EdgeInsets.all(12),
+      child: FlatButton.icon(
+        onPressed: () => _getImage(context),
+        label: const Text('UPLOAD PHOTO'),
+        textColor: Colors.green[800],
+        icon: const Icon(Icons.file_upload),
+      ),
+    );
+  }
 
   /*Future<void> _shareAlbum(BuildContext context) async {
 // Show the loading indicator
@@ -242,7 +249,7 @@ class _SingleChallengeState extends State<SingleChallengePage> {
         });
   }*/
 
-  RaisedButton _buildAddButton(BuildContext context) {
+  Widget _buildAddButton(BuildContext context) {
     if (_image == null) {
       // No image has been selected yet
       return const RaisedButton(
@@ -258,18 +265,41 @@ class _SingleChallengeState extends State<SingleChallengePage> {
         onPressed: null,
       );
     }
-
+    if (_adddate==null) {
+      _adddate=DateTime.now();
+    }
     // Otherwise, the upload has completed and an upload token is set
-    return RaisedButton(
+    return Column (
+        children: [
+          RaisedButton(
+              child: Text("${_adddate.year}-${_adddate
+                  .month}-${_adddate.day}  "),
+              onPressed: () {
+                Future<DateTime> selectedDate = showDatePicker(
+                    context: context,
+                    initialDate: _adddate,
+                    firstDate: DateTime(2018),
+                    lastDate: DateTime(2030),
+                    builder: (BuildContext context, Widget child) {
+                      return Theme(
+                        data: ThemeData.dark(),
+                        child: child,
+                      );
+                    });
+                selectedDate.then((date) {
+                  _adddate=date;
+               });}),
+        RaisedButton(
       child: const Text('ADD'),
-      onPressed: () => Navigator.pop(
-        context,
-        _contributePhoto(context)),
-        /*ContributePhotoResult(
+      onPressed: () =>
+          Navigator.pop(
+              context,
+              _contributePhoto(context)),
+      /*ContributePhotoResult(
           _uploadToken,
           challenge.getDescription(),
         ),*/
-      );
+    )]);
     //);
   }
 
@@ -301,15 +331,15 @@ class _SingleChallengeState extends State<SingleChallengePage> {
   }
 
   void _contributePhoto(BuildContext context) {
-    challenge.date=DateTime.now();
+    challenge.date = _adddate;
     setState(() {
       searchResponse =
-      (ScopedModel.of<PhotosLibraryApiModel>(context)
-            .createMediaItem(_uploadToken, challenge.getDescription())
-      ).then((BatchCreateMediaItemsResponse response) {
-        return ScopedModel.of<PhotosLibraryApiModel>(context)
-            .searchMediaItems();
-      });
+          (ScopedModel.of<PhotosLibraryApiModel>(context)
+              .createMediaItem(_uploadToken, challenge.getDescription())
+          ).then((BatchCreateMediaItemsResponse response) {
+            return ScopedModel.of<PhotosLibraryApiModel>(context)
+                .searchMediaItems();
+          });
     });
   }
 
@@ -338,8 +368,8 @@ class _SingleChallengeState extends State<SingleChallengePage> {
     ]);
   }*/
 
-  Widget _buildMediaItemList(
-      BuildContext context, AsyncSnapshot<SearchMediaItemsResponse> snapshot) {
+  Widget _buildMediaItemList(BuildContext context,
+      AsyncSnapshot<SearchMediaItemsResponse> snapshot) {
     if (snapshot.hasData) {
       if (snapshot.data.mediaItems == null) {
         return Container();

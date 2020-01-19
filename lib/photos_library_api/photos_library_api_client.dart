@@ -28,6 +28,7 @@ import 'package:sharing_codelab/photos_library_api/join_shared_album_request.dar
 import 'package:sharing_codelab/photos_library_api/join_shared_album_response.dart';
 import 'package:sharing_codelab/photos_library_api/list_albums_response.dart';
 import 'package:sharing_codelab/photos_library_api/list_shared_albums_response.dart';
+import 'package:sharing_codelab/photos_library_api/media_item.dart';
 import 'package:sharing_codelab/photos_library_api/search_media_items_request.dart';
 import 'package:sharing_codelab/photos_library_api/search_media_items_response.dart';
 import 'package:sharing_codelab/photos_library_api/share_album_request.dart';
