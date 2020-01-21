@@ -25,7 +25,7 @@ import 'package:sharing_codelab/pages/join_trip_page.dart';
 import 'package:sharing_codelab/components/primary_raised_button.dart';
 import 'package:sharing_codelab/components/baby_memo_app_bar.dart';
 import 'package:sharing_codelab/pages/trip_page.dart';
-import 'package:sharing_codelab/pages/single_challange_page.dart';
+import 'package:sharing_codelab/pages/upload_challenge.dart';
 import 'package:sharing_codelab/pages/calendar_3_page.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:sharing_codelab/util/to_be_implemented.dart';
@@ -56,184 +56,89 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
 
   Widget _buildBody(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-        builder: (context, child, photosLibraryApi) {
+        builder: (context, child, photosLibraryApi)
+    {
       return new Scaffold(
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 4),
-          child: Column(
-            children: <Widget>[
-              /*Expanded(
-                      child: Kalendar(
-                        selectedDates: _selectedDates,
-                        markedDates: _events,
-                        dayTileMargin: 1,
-                        dayTileBuilder: (DayProps props) {
-                          return CustomDayTile(props);
-                        },
-                        onTap: (DateTime dateTime, bool isSelected) {
-                          debugPrint(dateTime.toIso8601String());
-                          debugPrint('$isSelected');
-                          setState(() {
-                            _selectedDates.clear();
-                            _selectedDates.add(formatDate(dateTime));
-                          });
-                        },
-                      ),
-                    ),*/
-
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 16,
+          body: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: ListView(
+                //alignment: WrapAlignment.center,
+                //spacing: 16,
+                padding: const EdgeInsets.all(8),
+                shrinkWrap: true,
                 children: photosLibraryApi.mChallanges
                     .getUnHappened()
-                    .map((x) => ButtonTheme(
-                        minWidth: MediaQuery.of(context).size.width,
+                    .map((x) =>
+                    ButtonTheme(
+                        minWidth: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
                         //height: 100.0,
-                        buttonColor: Colors.white,
+                        buttonColor: Colors.indigo,
                         child: RaisedButton(
+                          padding: EdgeInsets.all(0),
                           child: Column(
                               children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: Container(
-                                color: Colors.indigo[50],
-                                padding: new EdgeInsets.all(8.0),
-                                child: new Text(
-                                  x.text,
-                                  style: new TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.indigo,
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Container(
+                                    color: Colors.indigo[50],
+                                    padding: new EdgeInsets.all(8.0),
+                                    child: new Text(
+                                      x.text,
+                                      style: new TextStyle(
+                                        fontSize: 17.0,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Container(
-                                padding: new EdgeInsets.all(8.0),
-                                child: new Text(
-                                  x.longerDescription,
-                                  textAlign: TextAlign.left,
-                                  style: new TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.indigo,
-                                    fontStyle: FontStyle.italic,
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Container(
+                                    color: Colors.white,
+                                    padding: new EdgeInsets.all(8.0),
+                                    child: new Text(
+                                      x.longerDescription,
+                                      textAlign: TextAlign.left,
+                                      style: new TextStyle(
+                                        fontSize: 15.0,
+                                        color: Colors.indigo,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 8,
+                                  child: Container(
+                                    color: Colors.indigoAccent,
+                                    padding: new EdgeInsets.all(8.0),
+                                  ),
+                                ),
+                              ]),
+                          onPressed: () =>
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      UploadChallengePage(
+                                        challenge: x,
+                                        searchResponse:
+                                        photosLibraryApi.searchMediaItems(),
+                                      ),
+                                ),
                               ),
-                            ),
-                          ]),
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  SingleChallengePage(
-                                challenge: x,
-                                searchResponse:
-                                    photosLibraryApi.searchMediaItems(),
-                              ),
-                            ),
-                          ),
                         )))
                     .toList(),
-                /*  <Widget>[RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-                    debugPrint('pressed me');
-                    _events[date].add(apiModel.mIssues.idToIssueMap.values.first.text);
-                  });
 
-                  setState(() {});
-                },
-                child: Text(apiModel.mIssues.idToIssueMap.values.first.text),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Wedding');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Wedding'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Dentist');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Dentist'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Interview');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Interview'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Blackday');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Blackday'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  _selectedDates.forEach((date) {
-                    if (_events[date] == null) {
-                      _events[date] = [];
-                    }
-
-                    _events[date].add('Holiday');
-                  });
-
-                  setState(() {});
-                },
-                child: Text('Holiday'),
-              ),
-            ],*/
-              ),
-              Center(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  child: Text(_selectedDates.toString()),
-                ),
               )
-            ],
-          ),
-        ),
+          )
       );
-    });
+    }
+    );
   }
 
   void _showSignInError(BuildContext context) {

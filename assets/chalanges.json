@@ -1,4 +1,11 @@
-[{
+[
+  {
+    "id": "1",
+    "text": "NARODZINY",
+    "expected_month" : 0,
+    "longer_description" : "Uzupełnij to wydarzenie narodzin Twojego dziecka, żeby lista rzeczy, które może już robić Twoje dziecko dobrze się aktualizowała."
+  },
+  {
   "id": "1a",
   "text": "Pierwszy krok",
   "expected_month" : 2,
@@ -28,9 +35,41 @@
   {
     "id": "1e",
     "text": "Odruch Moro",
-    "expected_month" : 4,
+    "expected_month" : 1,
     "longer_description" : "przestraszone nagłym ruchem lub hałasem dziecko gwałtownie rozprostowuje rączki i nóżki, a następnie przyciska rączki i nóżki do siebie, zaciskając piąstki"
-  }
+  },
 
+
+  {
+    "id": "1f",
+    "text": "Odruch chwytny",
+    "expected_month" : 1,
+    "longer_description" : "noworodek zaciska palce na twoim kciuku lub innym podanym przedmiocie z taką siłą, że jesteś w stanie unieść dziecko do góry"
+  },
+
+  {
+    "id": "1g",
+    "text": "Odruch Babińskiego",
+    "expected_month" : 1,
+    "longer_description" : "kiedy połaskoczesz dziecko po podeszwie stopy, małe palce zegną się do środka, natomiast duży palec wygnie się do góry"
+  },
+  {
+    "id": "1h",
+    "text": "Odruch Rootinga",
+    "expected_month" : 1,
+    "longer_description" : "kiedy delikatnie muśniesz dziecko w policzek, ono delikatnie odwróci główkę w tę stronę i otworzy buzię, gotowe do ssania"
+  },
+  {
+    "id": "1i",
+    "text": "Odruch kroczenia",
+    "expected_month" : 1,
+    "longer_description" : "podtrzymując dziecko w pozycji pionowej pod paszkami w taki sposób, by stópkami dotykało ziemi, zobaczysz, jak stawia krok za krokiem, jakby chodziło"
+  },
+  {
+    "id": "1j",
+    "text": "Czynności ruchowe",
+    "expected_month" : 1,
+    "longer_description" : "leżąc na brzuchu, unosi samą głowę"
+  }
 
 ]
