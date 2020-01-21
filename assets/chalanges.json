@@ -1,24 +1,35 @@
 [{
   "id": "1a",
   "text": "Pierwszy krok",
-  "expected_month" : 2
+  "expected_month" : 2,
+  "longer_description" : "Dłuższy opis"
 },
   {
     "id": "1b",
     "text": "Drugi krok",
-    "expected_month" : 3
+    "expected_month" : 3,
+    "longer_description" : "Dłuższy opis"
   }
 ,
   {
     "id": "1c",
     "text": "trzeci krok",
-    "expected_month" : 3
+    "expected_month" : 3,
+    "longer_description" : "Dłuższy opis"
   }
 ,
   {
     "id": "1d",
     "text": "czwarty krok",
-    "expected_month" : 3
+    "expected_month" : 3,
+    "longer_description" : "Dłuższy opis"
+  },
+
+  {
+    "id": "1e",
+    "text": "Odruch Moro",
+    "expected_month" : 4,
+    "longer_description" : "przestraszone nagłym ruchem lub hałasem dziecko gwałtownie rozprostowuje rączki i nóżki, a następnie przyciska rączki i nóżki do siebie, zaciskając piąstki"
   }
 
 

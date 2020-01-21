@@ -54,7 +54,7 @@ class BabyMemoAppBar extends StatelessWidget implements PreferredSizeWidget {
     final List<Widget> widgets = <Widget>[];
 
     if (apiModel.isLoggedIn()) {
-      if (apiModel.user.photoUrl != null) {
+      /*if (apiModel.user.photoUrl != null) {
         widgets.add(Container(
           child: CircleAvatar(
             radius: 14,
@@ -87,7 +87,7 @@ class BabyMemoAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         );
-      }
+      }*/
 
       widgets.add(
         PopupMenuButton<_AppBarOverflowOptions>(
@@ -104,7 +104,7 @@ class BabyMemoAppBar extends StatelessWidget implements PreferredSizeWidget {
             return <PopupMenuEntry<_AppBarOverflowOptions>>[
               PopupMenuItem<_AppBarOverflowOptions>(
                 value: _AppBarOverflowOptions.signout,
-                child: const Text('Disconnect from Google Photos'),
+                child: const Text('Rozłącz się z Google Photos'),
               )
             ];
           },

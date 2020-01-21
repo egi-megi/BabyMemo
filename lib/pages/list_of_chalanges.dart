@@ -33,16 +33,17 @@ import 'package:sharing_codelab/util/to_be_implemented.dart';
 import 'dart:collection';
 import 'package:kalendar/kalendar.dart';
 
-
 class ChalangesListPage extends StatefulWidget {
   @override
-  _CustomizedChalangesListState createState() => _CustomizedChalangesListState();
+  _CustomizedChalangesListState createState() =>
+      _CustomizedChalangesListState();
 }
 
 class _CustomizedChalangesListState extends State<ChalangesListPage> {
   var _events = Map<String, List<String>>();
   final _selectedDates = HashSet<String>();
   bool _isLoading = false;
+
   //Challenge challenge;
 
   @override
@@ -53,17 +54,15 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
     );
   }
 
-
-
   Widget _buildBody(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
         builder: (context, child, photosLibraryApi) {
-          return new Scaffold(
-              body: Container(
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                child: Column(
-                  children: <Widget>[
-                    /*Expanded(
+      return new Scaffold(
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 4),
+          child: Column(
+            children: <Widget>[
+              /*Expanded(
                       child: Kalendar(
                         selectedDates: _selectedDates,
                         markedDates: _events,
@@ -82,25 +81,62 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
                       ),
                     ),*/
 
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 16,
-                      children:
-                      photosLibraryApi.mChallanges.getUnHappened().map((x)=>
-                          RaisedButton (
-                            child: Text(x.text),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    SingleChallengePage(
-                                      challenge : x,
-                                      searchResponse:
-                                      photosLibraryApi.searchMediaItems(),
-                                    ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 16,
+                children: photosLibraryApi.mChallanges
+                    .getUnHappened()
+                    .map((x) => ButtonTheme(
+                        minWidth: MediaQuery.of(context).size.width,
+                        //height: 100.0,
+                        buttonColor: Colors.white,
+                        child: RaisedButton(
+                          child: Column(
+                              children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: Container(
+                                color: Colors.indigo[50],
+                                padding: new EdgeInsets.all(8.0),
+                                child: new Text(
+                                  x.text,
+                                  style: new TextStyle(
+                                    fontSize: 17.0,
+                                    color: Colors.indigo,
+                                  ),
+                                ),
                               ),
-                            ),)).toList(),
-                      /*  <Widget>[RaisedButton(
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: Container(
+                                padding: new EdgeInsets.all(8.0),
+                                child: new Text(
+                                  x.longerDescription,
+                                  textAlign: TextAlign.left,
+                                  style: new TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.indigo,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  SingleChallengePage(
+                                challenge: x,
+                                searchResponse:
+                                    photosLibraryApi.searchMediaItems(),
+                              ),
+                            ),
+                          ),
+                        )))
+                    .toList(),
+                /*  <Widget>[RaisedButton(
                 onPressed: () {
                   _selectedDates.forEach((date) {
                     if (_events[date] == null) {
@@ -185,20 +221,21 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
                 child: Text('Holiday'),
               ),
             ],*/
-                    ),
-
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                        child: Text(_selectedDates.toString()),
-                      ),
-                    )
-                  ],
-                ),
               ),
-          );
-        });
+              Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                  child: Text(_selectedDates.toString()),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    });
   }
+
   void _showSignInError(BuildContext context) {
     final SnackBar snackBar = SnackBar(
       duration: Duration(seconds: 3),
@@ -208,7 +245,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  /*Future<void> _navigateToSingleChallange(BuildContext context, PhotosLibraryApiModel photosLibraryApi) async {
+/*Future<void> _navigateToSingleChallange(BuildContext context, PhotosLibraryApiModel photosLibraryApi) async {
     // Display the loading indicator.
     /*setState(() => _isLoading = true);
     if (!photosLibraryApi.hasAlbums) {
@@ -257,7 +294,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
 
   }*/
 
-  /*void _navigateToSingleChallange(BuildContext context) {
+/*void _navigateToSingleChallange(BuildContext context) {
 
     Navigator.push(
       context,
@@ -279,13 +316,10 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
 
 }
 
-
 class CustomDayTile extends StatelessWidget {
   final DayProps props;
 
   CustomDayTile(this.props);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -325,9 +359,9 @@ class CustomDayTile extends StatelessWidget {
       margin: EdgeInsets.all(props.dayTileMargin ?? 3),
       decoration: BoxDecoration(
         border: Border.all(color: Theme.of(context).primaryColor
-          // width: 1,
-          // color: props.dayTileBorderColor ?? Colors.grey,
-        ),
+            // width: 1,
+            // color: props.dayTileBorderColor ?? Colors.grey,
+            ),
         // borderRadius: BorderRadius.circular(props.borderRadius),
         color: props.isSelected ? Colors.green : Colors.transparent,
       ),
@@ -335,9 +369,9 @@ class CustomDayTile extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisAlignment:
-            props.events != null && props.events[0] == 'Tennis'
-                ? MainAxisAlignment.end
-                : MainAxisAlignment.center,
+                props.events != null && props.events[0] == 'Tennis'
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
@@ -361,6 +395,7 @@ class CustomDayTile extends StatelessWidget {
 
 class _EventMark extends StatelessWidget {
   final List<String> events;
+
   _EventMark(this.events);
 
   @override
@@ -430,8 +465,4 @@ class _EventMark extends StatelessWidget {
 
     return Container();
   }
-
-
-
-
 }

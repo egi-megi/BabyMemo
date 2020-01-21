@@ -84,7 +84,9 @@ class _SingleChallengeState extends State<SingleChallengePage> {
                     ),
                       Text("${challenge.date.year}-${challenge.date
                           .month}-${challenge.date.day}  "),
-
+                      Text(
+                        challenge.longerDescription,
+                      ),
 
 
                       CachedNetworkImage(

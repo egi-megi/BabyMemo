@@ -56,13 +56,13 @@ class MyApp extends StatelessWidget {
 ThemeData _buildTheme() {
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
-    primaryColor: Colors.purpleAccent[700],
+    primaryColor: Colors.indigo,
     primaryColorBrightness: Brightness.dark,
     primaryTextTheme: Typography.blackMountainView,
     primaryIconTheme: const IconThemeData(
-      color: Colors.grey,
+      color: Colors.white,
     ),
-    accentColor: Colors.white,
+    accentColor: Colors.amber,
     buttonTheme: base.buttonTheme.copyWith(
       buttonColor: Colors.white,
       textTheme: ButtonTextTheme.primary,

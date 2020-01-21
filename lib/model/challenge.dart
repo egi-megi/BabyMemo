@@ -4,14 +4,16 @@ class Challenge {
   final String id;
   final String text;
   final int expectedMonth;
+  final String longerDescription;
   DateTime _date=null;
   MediaItem mi=null;
-  Challenge(this.id, this.text, this.expectedMonth);
+  Challenge(this.id, this.text, this.expectedMonth, this.longerDescription);
 
   Challenge.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         text = json['text'],
-        expectedMonth=json['expected_month'];
+        expectedMonth=json['expected_month'],
+        longerDescription = json['longer_description'];
 
 
   Map<String, dynamic> toJson() =>
