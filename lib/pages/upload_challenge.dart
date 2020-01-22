@@ -50,7 +50,7 @@ class _UploadChallengeState extends State<UploadChallengePage> {
 
   File _image;
   String _uploadToken;
-  DateTime _adddate = DateTime.now();
+  List<DateTime> _adddate = [DateTime.now()];
   bool _isUploading = false;
   Future<SearchMediaItemsResponse> searchResponse;
 
@@ -71,14 +71,14 @@ class _UploadChallengeState extends State<UploadChallengePage> {
         builder: (context, child, photosLibraryApi) {
       return new Scaffold(
           body: Container(
-            width: double.infinity,
+        width: double.infinity,
         padding: const EdgeInsets.all(14),
         child: SingleChildScrollView(
           child: Column(
             children: (challenge.date != null && challenge.mi != null)
                 ? <Widget>[
                     new Text(
-                      challenge.text,
+                      challenge.title,
                       style: new TextStyle(
                         fontSize: 17.0,
                         color: Colors.indigo,
@@ -112,7 +112,7 @@ class _UploadChallengeState extends State<UploadChallengePage> {
                       color: Colors.indigo[50],
                       padding: new EdgeInsets.all(8.0),
                       child: new Text(
-                        challenge.text,
+                        challenge.title,
                         style: new TextStyle(
                           fontSize: 17.0,
                           color: Colors.indigo,
@@ -134,10 +134,6 @@ class _UploadChallengeState extends State<UploadChallengePage> {
                       ),
                     ),
                     _buildUploadButton(context),
-                    Align(
-                      child: _buildAddButton(context),
-                      alignment: const Alignment(0.0, 1.0),
-                    )
                   ],
           ),
         ),
@@ -150,17 +146,17 @@ class _UploadChallengeState extends State<UploadChallengePage> {
       // An image has been selected, display it in the dialog
       return Container(
         padding: const EdgeInsets.all(12),
-        child: Center(
+        child: _isUploading ? const LinearProgressIndicator() :
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image.file(_image),
-              _isUploading ? const LinearProgressIndicator() : Container(),
-              FutureBuilder<SearchMediaItemsResponse>(
-                future: searchResponse,
-                builder: _buildMediaItemList,
-              )
+              _buildAddButton(context),
+          FutureBuilder<SearchMediaItemsResponse>(
+            future:searchResponse,
+            builder: (ctx,smr ){return Image.file(_image);}),
+
             ],
           ),
         ),
@@ -181,106 +177,79 @@ class _UploadChallengeState extends State<UploadChallengePage> {
     );
   }
 
-  /*Future<void> _shareAlbum(BuildContext context) async {
-// Show the loading indicator
-    setState(() {
-      _inSharingApiCall = true;
-    });
-    final SnackBar snackBar = SnackBar(
-      duration: Duration(seconds: 3),
-      content: const Text('Sharing Album...'),
-    );
-    Scaffold.of(context).showSnackBar(snackBar);
-    // Share the album and update the local model
-    await ScopedModel.of<PhotosLibraryApiModel>(context).shareAlbum(album.id);
-    final Album updatedAlbum =
-    await ScopedModel.of<PhotosLibraryApiModel>(context).getAlbum(album.id);
-    print('Album has been shared.');
-    setState(() {
-      album = updatedAlbum;
-      // Hide the loading indicator
-      _inSharingApiCall = false;
-    });
-  }
-
-  void _showShareableUrl(BuildContext context) {
-    if (album.shareInfo == null || album.shareInfo.shareableUrl == null) {
-      print('Not shared, sharing album first.');
-      // Album is not shared yet, share it first, then display dialog
-      _shareAlbum(context).then((_) {
-        _showUrlDialog(context);
-      });
-    } else {
-      // Album is already shared, display dialog with URL
-      _showUrlDialog(context);
-    }
-  }
-
-  void _showShareToken(BuildContext context) {
-    if (album.shareInfo == null) {
-      print("Not shared, sharing album first.");
-      // Album is not shared yet, share it first, then display dialog
-      _shareAlbum(context).then((_) {
-        _showTokenDialog(context);
-      });
-    } else {
-      // Album is already shared, display dialog with token
-      _showTokenDialog(context);
-    }
-  }
-
-  void _showTokenDialog(BuildContext context) {
-    print('This is the shareToken:\n${album.shareInfo.shareToken}');
-
-    _showShareDialog(
-        context, 'Use this token to share', album.shareInfo.shareToken);
-  }
-
-  void _showUrlDialog(BuildContext context) {
-    print('This is the shareableUrl:\n${album.shareInfo.shareableUrl}');
-
-    _showShareDialog(
-        context,
-        'Share this URL with anyone. '
-            'Anyone with this URL can access all items.',
-        album.shareInfo.shareableUrl);
-  }
-
-  void _showShareDialog(BuildContext context, String title, String text) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    text,
-                  ),
-                ),
-                FlatButton(
-                  child: const Text('Copy'),
-                  onPressed: () => Clipboard.setData(ClipboardData(text: text)),
-                )
-              ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: const Text('Close'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }*/
-
   Widget _buildAddButton(BuildContext context) {
-    if (_image == null) {
-      // No image has been selected yet
-      return ButtonTheme(
+    if (_uploadToken == null) {
+      // Upload has not completed yet
+      return const RaisedButton(
+        child: Text('Waiting for image upload'),
+        onPressed: null,
+      );
+    }
+    if (_adddate == null) {
+      print("adddate is null");
+      _adddate = [DateTime.now()];
+    }
+    if (_adddate[0]==null) {
+      print("date 0 pos is null");
+      _adddate[0] =DateTime.now();
+    }
+    // Otherwise, the upload has completed and an upload token is set
+    return Column(children: [
+      Row(
+          children: <Widget>[
+        Expanded(
+          flex: 3,
+          child: new Text(
+            "Data wydarzenia: ",
+            style: new TextStyle(
+              fontSize: 17.0,
+              //backgroundColor: Colors.white,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Text(
+              "${_adddate[0].year}-${_adddate[0].month}-${_adddate[0].day}  ",
+            style: new TextStyle(
+              fontSize: 19.0,
+              //backgroundColor: Colors.white,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),),
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(
+            icon: Icon(Icons.edit),
+            tooltip: 'Change date',
+            onPressed: () {
+              Future<DateTime> selectedDate = showDatePicker(
+                  context: context,
+                  initialDate: _adddate[0],
+                  firstDate: DateTime(2018),
+                  lastDate: DateTime(2030),
+                  builder: (BuildContext context, Widget child) {
+                    return Theme(
+                      data: ThemeData.dark(),
+                      child: child,
+                    );
+                  });
+              selectedDate.then((date) {
+                print("setting date to ${date}");
+                setState(() {
+                  _adddate[0]=date;
+                });
+                _adddate[0]=date;
+              });
+            },
+          ),
+        ),
+
+      ]
+      ),
+      ButtonTheme(
           minWidth: 100.0,
           //height: 100.0,
           buttonColor: Colors.white,
@@ -292,48 +261,12 @@ class _UploadChallengeState extends State<UploadChallengePage> {
                 color: Colors.indigo,
               ),
             ),
-            onPressed: null,
-          ));
-    }
-
-    if (_uploadToken == null) {
-      // Upload has not completed yet
-      return const RaisedButton(
-        child: Text('Waiting for image upload'),
-        onPressed: null,
-      );
-    }
-    if (_adddate == null) {
-      _adddate = DateTime.now();
-    }
-    // Otherwise, the upload has completed and an upload token is set
-    return Column(children: [
-      RaisedButton(
-          child: Text("${_adddate.year}-${_adddate.month}-${_adddate.day}  "),
-          onPressed: () {
-            Future<DateTime> selectedDate = showDatePicker(
-                context: context,
-                initialDate: _adddate,
-                firstDate: DateTime(2018),
-                lastDate: DateTime(2030),
-                builder: (BuildContext context, Widget child) {
-                  return Theme(
-                    data: ThemeData.dark(),
-                    child: child,
-                  );
-                });
-            selectedDate.then((date) {
-              _adddate = date;
-            });
-          }),
-      RaisedButton(
-        child: const Text('ADD'),
-        onPressed: () => Navigator.pop(context, _contributePhoto(context)),
-        /*ContributePhotoResult(
+            onPressed: () => Navigator.pop(context, _contributePhoto(context)),
+            /*ContributePhotoResult(
           _uploadToken,
           challenge.getDescription(),
         ),*/
-      )
+          ))
     ]);
     //);
   }
@@ -366,7 +299,7 @@ class _UploadChallengeState extends State<UploadChallengePage> {
   }
 
   void _contributePhoto(BuildContext context) {
-    challenge.date = _adddate;
+    challenge.date = _adddate[0];
     setState(() {
       searchResponse = (ScopedModel.of<PhotosLibraryApiModel>(context)
               .createMediaItem(_uploadToken, challenge.getDescription()))

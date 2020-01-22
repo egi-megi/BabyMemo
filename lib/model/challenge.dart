@@ -2,24 +2,26 @@ import 'package:sharing_codelab/photos_library_api/media_item.dart';
 
 class Challenge {
   final String id;
-  final String text;
+  final String title;
   final int expectedMonth;
   final String longerDescription;
+  final String shortTitle;
   DateTime _date=null;
   MediaItem mi=null;
-  Challenge(this.id, this.text, this.expectedMonth, this.longerDescription);
+  Challenge(this.id, this.title, this.expectedMonth, this.longerDescription, this.shortTitle);
 
   Challenge.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        text = json['text'],
+        title = json['text'],
         expectedMonth=json['expected_month'],
-        longerDescription = json['longer_description'];
+        longerDescription = json['longer_description'],
+        shortTitle = json['short_title'];
 
 
   Map<String, dynamic> toJson() =>
     {
       'id': id,
-      'text': text,
+      'text': title,
     };
 
 

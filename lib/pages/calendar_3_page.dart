@@ -64,6 +64,15 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
                 FutureBuilder(
                     future: _loaded,
                     builder: (BuildContext context, AsyncSnapshot<bool> b) {
+                      if (b.data==null || !b.data){
+                        return (Column(
+                            children: <Widget>[
+                            Text("Sprawdzam co Twoje dziecko już zrobiło..."),
+                            LinearProgressIndicator(),
+                        ]
+                        )
+                        );
+                      }
                       var map1 = groupBy(apiModel.mChallanges.getAllHappened(),
                           (Challenge mi) => formatDate(mi.date));
                       var map2 = map1.map((k, list) => MapEntry(
@@ -107,7 +116,7 @@ class _CustomizedCalendarState extends State<Calendar3Page> {
                           .getHappened(DateTime.parse(_selectedDates.first))
                           .map((x) => RaisedButton(
                               child: new Text(
-                                x.text,
+                                x.title,
                                 style: new TextStyle(
                                   fontSize: 15.0,
                                   color: Colors.indigo,
@@ -245,7 +254,7 @@ class _EventMark extends StatelessWidget {
                             .mChallanges
                             .idToChallengesMap[
                                 Challenge.findIdFromDescription(desc)]
-                            .text,
+                            .shortTitle,
                         style: Theme.of(context)
                             .textTheme
                             .caption
@@ -254,66 +263,6 @@ class _EventMark extends StatelessWidget {
                   .toList()),
         ));
 
-    if (events[0] == 'Wedding') {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          margin: EdgeInsets.all(2),
-          padding: EdgeInsets.all(2),
-          color: Colors.purple,
-          child: Text('Wedding',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .copyWith(color: Colors.white, fontSize: 11)),
-        ),
-      );
-    }
-
-    if (events[0] == 'Dentist') {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          margin: EdgeInsets.all(2),
-          padding: EdgeInsets.all(2),
-          color: Colors.deepOrange,
-          child: Text('Dentist',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .copyWith(color: Colors.white, fontSize: 11)),
-        ),
-      );
-    }
-
-    if (events[0] == 'Tennis') {
-      return Container(
-        margin: EdgeInsets.all(2),
-        padding: EdgeInsets.all(2),
-        child: Image.network(
-          'https://upload.wikimedia.org/wikipedia/commons/c/c3/P_tennis.png',
-          width: 40,
-        ),
-      );
-    }
-
-    if (events[0] == 'Interview') {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          margin: EdgeInsets.all(2),
-          padding: EdgeInsets.all(2),
-          color: Colors.black,
-          child: Text('Interview',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .copyWith(color: Colors.white, fontSize: 11)),
-        ),
-      );
-    }
-
-    return Container();
   }
 }
 

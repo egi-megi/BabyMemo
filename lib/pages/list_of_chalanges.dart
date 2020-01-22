@@ -86,7 +86,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
                                     color: Colors.indigo[50],
                                     padding: new EdgeInsets.all(8.0),
                                     child: new Text(
-                                      x.text,
+                                      x.title,
                                       style: new TextStyle(
                                         fontSize: 17.0,
                                         color: Colors.indigo,
@@ -150,74 +150,7 @@ class _CustomizedChalangesListState extends State<ChalangesListPage> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-/*Future<void> _navigateToSingleChallange(BuildContext context, PhotosLibraryApiModel photosLibraryApi) async {
-    // Display the loading indicator.
-    /*setState(() => _isLoading = true);
-    if (!photosLibraryApi.hasAlbums) {
-      await photosLibraryApi
-          .createAlbum("first2years")
-          .then((Album album) {
-        ToBeImplemented.showMessage();
 
-        // Hide the loading indicator.
-        setState(() => _isLoading = false);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) =>
-                SingleChallangePage(
-                  searchResponse:
-                  photosLibraryApi.searchMediaItems(album.id),
-                ),
-          ),
-        );
-      });
-    } else {*/
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) =>
-              SingleChallangePage(
-               searchResponse:
-                photosLibraryApi.searchMediaItems(photosLibraryApi.albums[0].id),
-              ),
-        ),
-      );
-
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => TripPage(
-            album: sharedAlbum,
-            searchResponse:
-            photosLibraryApi.searchMediaItems(sharedAlbum.id),
-          ),
-        ),
-      ),
-   // }
-
-  }*/
-
-/*void _navigateToSingleChallange(BuildContext context) {
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => TripPage(
-          album: sharedAlbum,
-          searchResponse:
-          photosLibraryApi.searchMediaItems(sharedAlbum.id),
-        ),
-      ),
-    ),
-    /*Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => ChalangesListPage(),
-      ),
-    );*/
-  }*/
 
 }
 

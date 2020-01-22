@@ -78,16 +78,56 @@ class _SingleChallengeState extends State<SingleChallengePage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children:
-                    (challenge.date != null && challenge.mi != null) ?
-                    <Widget>[ Text(
-                      challenge.text,
-                    ),
-                      Text("${challenge.date.year}-${challenge.date
-                          .month}-${challenge.date.day}  "),
-                      Text(
-                        challenge.longerDescription,
+                    <Widget>[
+                      Container(
+                        width: double.infinity,
+                        color: Colors.indigo[50],
+                        padding: new EdgeInsets.all(8.0),
+                        child: Row(
+                        children:
+                        <Widget> [
+                        Expanded(
+                          flex: 3,
+                          child: new Text(
+                          challenge.title,
+                          style: new TextStyle(
+                            fontSize: 17.0,
+                            color: Colors.indigo,
+                          ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: new Text(
+                            "${challenge.date.year}-${challenge.date
+                                .month}-${challenge.date.day}  ",
+                            textAlign: TextAlign.end,
+                            style: new TextStyle(
+                              fontSize: 17.0,
+                              color: Colors.indigo,
+                            ),
+                          ),
+                        ),
+                    ]
+                        ),
                       ),
-
+                      Container(
+                        width: double.infinity,
+                        color: Colors.white,
+                        padding: new EdgeInsets.all(8.0),
+                        child: new Text(
+                          challenge.longerDescription,
+                          textAlign: TextAlign.left,
+                          style: new TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.indigo,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 8)
+                      ),
 
                       CachedNetworkImage(
                         imageUrl: '${challenge.mi.baseUrl}=w364',
@@ -99,19 +139,8 @@ class _SingleChallengeState extends State<SingleChallengePage> {
                           return const Icon(Icons.error);
                         },
                       ),
-                    ] :
-                    <Widget>[
-                      _buildUploadButton(context),
-                      Text(
-                        challenge.text,
-                      ),
-                      Align(
-                        child: _buildAddButton(context),
-                        alignment: const FractionalOffset(1, 0),
-                      )
-                    ],
+                    ]
                   ),
-
                 ),
               )
           );
@@ -141,7 +170,6 @@ class _SingleChallengeState extends State<SingleChallengePage> {
       );
     }
 
-    // TODO(developer): Implement error display
 
     // No image has been selected yet
     return Container(
@@ -155,101 +183,7 @@ class _SingleChallengeState extends State<SingleChallengePage> {
     );
   }
 
-  /*Future<void> _shareAlbum(BuildContext context) async {
-// Show the loading indicator
-    setState(() {
-      _inSharingApiCall = true;
-    });
-    final SnackBar snackBar = SnackBar(
-      duration: Duration(seconds: 3),
-      content: const Text('Sharing Album...'),
-    );
-    Scaffold.of(context).showSnackBar(snackBar);
-    // Share the album and update the local model
-    await ScopedModel.of<PhotosLibraryApiModel>(context).shareAlbum(album.id);
-    final Album updatedAlbum =
-    await ScopedModel.of<PhotosLibraryApiModel>(context).getAlbum(album.id);
-    print('Album has been shared.');
-    setState(() {
-      album = updatedAlbum;
-      // Hide the loading indicator
-      _inSharingApiCall = false;
-    });
-  }
 
-  void _showShareableUrl(BuildContext context) {
-    if (album.shareInfo == null || album.shareInfo.shareableUrl == null) {
-      print('Not shared, sharing album first.');
-      // Album is not shared yet, share it first, then display dialog
-      _shareAlbum(context).then((_) {
-        _showUrlDialog(context);
-      });
-    } else {
-      // Album is already shared, display dialog with URL
-      _showUrlDialog(context);
-    }
-  }
-
-  void _showShareToken(BuildContext context) {
-    if (album.shareInfo == null) {
-      print("Not shared, sharing album first.");
-      // Album is not shared yet, share it first, then display dialog
-      _shareAlbum(context).then((_) {
-        _showTokenDialog(context);
-      });
-    } else {
-      // Album is already shared, display dialog with token
-      _showTokenDialog(context);
-    }
-  }
-
-  void _showTokenDialog(BuildContext context) {
-    print('This is the shareToken:\n${album.shareInfo.shareToken}');
-
-    _showShareDialog(
-        context, 'Use this token to share', album.shareInfo.shareToken);
-  }
-
-  void _showUrlDialog(BuildContext context) {
-    print('This is the shareableUrl:\n${album.shareInfo.shareableUrl}');
-
-    _showShareDialog(
-        context,
-        'Share this URL with anyone. '
-            'Anyone with this URL can access all items.',
-        album.shareInfo.shareableUrl);
-  }
-
-  void _showShareDialog(BuildContext context, String title, String text) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    text,
-                  ),
-                ),
-                FlatButton(
-                  child: const Text('Copy'),
-                  onPressed: () => Clipboard.setData(ClipboardData(text: text)),
-                )
-              ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: const Text('Close'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }*/
 
   Widget _buildAddButton(BuildContext context) {
     if (_image == null) {
@@ -301,7 +235,9 @@ class _SingleChallengeState extends State<SingleChallengePage> {
           _uploadToken,
           challenge.getDescription(),
         ),*/
-    )]);
+    )
+        ]
+    );
     //);
   }
 
